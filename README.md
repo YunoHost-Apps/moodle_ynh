@@ -11,12 +11,12 @@ integrated system to create personalised learning environments.
 Moodle is widely used around the world by universities, schools, companies and
 all manner of organisations and individuals.
 
-#Installation
+# Installation
 ** After the installation go to your domain https://domain.tld/moodle and create the admin account. **
 
 ## To-do
 - [X] Install script
 - [X] Remove script
 - [ ] Upgrade script
-- [ ] Backup and Restore scripts
+- [X] Backup and Restore scripts(need testing)
 - [ ] LDAP integration

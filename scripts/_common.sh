@@ -33,7 +33,7 @@ ynh_remove_php7 () {
 }
 
 
-# Create a dedicated php-fpm config
+# Create a dedicated php-fpm config for php7.1
 #
 # usage: ynh_add_fpm_config
 ynh_add_php7.1-fpm_config () {
@@ -58,11 +58,8 @@ ynh_add_php7.1-fpm_config () {
 	sudo systemctl reload php7.1-fpm
 }
 
-<<<<<<< HEAD
+
 # Remove the dedicated php-fpm config for php7.1
-=======
-# Remove the dedicated php-fpm config
->>>>>>> 4d1446000580d39209c48e91f1e764e3bb677881
 #
 # usage: ynh_remove_fpm_config
 ynh_remove_php7.1-fpm_config () {
@@ -70,28 +67,3 @@ ynh_remove_php7.1-fpm_config () {
 	ynh_secure_remove "/etc/php/7.1/fpm/conf.d/20-$app.ini" 2>&1
 	sudo systemctl reload php7.1-fpm
 }
-<<<<<<< HEAD
-
-ynh_install_php7 () {
-
-  ynh_package_update
-  ynh_package_install apt-transport-https --no-install-recommends
-
-  wget -q -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.list
-
-  ynh_package_update
-  ynh_install_app_dependencies php7.1 php7.1-zip php7.1-fpm php7.1-mysql php7.1-xml php7.1-intl php7.1-mbstring php7.1-gd php7.1-curl php7.1-soap php7.1-pgsql
-  sudo update-alternatives --install /usr/bin/php php /usr/bin/php5 70
-	sudo systemctl reload php7.1-fpm
-
-}
-
-ynh_remove_php7 () {
-  sudo rm -f /etc/apt/sources.list.d/php7.list
-  sudo apt-key del 4096R/89DF5277
-  sudo apt-key del 2048R/11A06851
-  ynh_remove_app_dependencies php7.1 php7.1-zip php7.1-fpm php7.1-mysql php7.1-xml php7.1-intl php7.1-mbstring php7.1-gd php7.1-curl php7.1-soap php7.1-pgsql
-}
-=======
->>>>>>> 4d1446000580d39209c48e91f1e764e3bb677881

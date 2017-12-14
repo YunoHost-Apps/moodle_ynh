@@ -33,7 +33,9 @@ ynh_psql_execute_as_root () {
 # | arg: file - the file containing SQL commands
 # | arg: db - the database to connect to
 ynh_psql_execute_file_as_root() {
-     ynh_die "ynh_psql_execute_file_as_root is not yet implemented"
+  file="$1"
+  	db="$2"
+  	su -c "psql $db" postgres < "$file"
 }
 
 # Create a database and grant optionnaly privilegies to a user
@@ -70,7 +72,8 @@ ynh_psql_drop_db() {
 # | arg: db - the database name to dump
 # | ret: the psqldump output
 ynh_psql_dump_db() {
-    ynh_die "ynh_psql_dump_db is not yet implemented"
+  db="$1"
+su --command="pg_dump \"${db}\"" postgres
 }
 
 
@@ -97,13 +100,25 @@ ynh_psql_test_if_first_run() {
 	then
 		echo "PostgreSQL is already installed, no need to create master password"
 	else
-		local pgsql=$(ynh_string_random)
+		pgsql=$(ynh_string_random)
+		pg_hba=""
 		echo "$pgsql" >> /etc/yunohost/psql
+
+		if [ -e /etc/postgresql/9.4/ ]
+		then
+			pg_hba=/etc/postgresql/9.4/main/pg_hba.conf
+		elif [ -e /etc/postgresql/9.6/ ]
+		then
+			pg_hba=/etc/postgresql/9.6/main/pg_hba.conf
+		else
+			ynh_die "postgresql shoud be 9.4 or 9.6"
+		fi
+
 		systemctl start postgresql
-		sudo -u postgres psql -c"ALTER user postgres WITH PASSWORD '${pgsql}'"
+                su --command="psql -c\"ALTER user postgres WITH PASSWORD '${pgsql}'\"" postgres
 		# we can't use peer since YunoHost create users with nologin
 		sed -i '/local\s*all\s*all\s*peer/i \
-			local all all password' /etc/postgresql/9.4/main/pg_hba.conf
+		local all all password' "$pg_hba"
 		systemctl enable postgresql
 		systemctl reload postgresql
 	fi
