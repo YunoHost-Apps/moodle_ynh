@@ -15,8 +15,8 @@ all manner of organisations and individuals.
 ** After the installation go to your domain https://domain.tld/moodle and create the admin account. **
 
 ## To-do
-[X]- Install script
-[X]- Remove script
-[ ]- Upgrade script
-[ ]- Backup and Restore scripts
-[ ]- LDAP integration
+- [X] Install script
+- [X] Remove script
+- [ ] Upgrade script
+- [ ] Backup and Restore scripts
+- [ ] LDAP integration

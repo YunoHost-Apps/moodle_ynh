@@ -30,19 +30,17 @@
 unset($CFG);  // Ignore this line
 global $CFG;  // This is necessary here for PHPUnit execution
 $CFG = new stdClass();
-
 //=========================================================================
 // 1. DATABASE SETUP
 //=========================================================================
 // First, you need to configure the database where all Moodle data       //
 // will be stored.  This database must already have been created         //
 // and a username/password created to access it.                         //
-
 $CFG->dbtype    = 'pgsql';      // 'pgsql', 'mariadb', 'mysqli', 'mssql', 'sqlsrv' or 'oci'
 $CFG->dblibrary = 'native';     // 'native' only at the moment
 $CFG->dbhost    = 'localhost';  // eg 'localhost' or 'db.isp.com' or IP
-$CFG->dbname    = 'YNH_APP';     // database name, eg moodle
-$CFG->dbuser    = 'YNH_DB_USER';   // your database username
+$CFG->dbname    = 'YNH_DB_USER';     // database name, eg moodle
+$CFG->dbuser    = 'YNH_APP';   // your database username
 $CFG->dbpass    = 'YNH_DB_PWD';   // your database password
 $CFG->prefix    = 'mdl_';       // prefix to use for all table names
 $CFG->dboptions = array(
@@ -63,16 +61,23 @@ $CFG->dboptions = array(
                                 // support advanced options on connection.
                                 // If you set those in the database then
                                 // the advanced settings will not be sent.
- //   'dbcollation' => 'utf8mb4_unicode_ci', // MySQL has partial and full UTF-8
+  //  'dbcollation' => 'utf8mb4_unicode_ci', // MySQL has partial and full UTF-8
                                 // support. If you wish to use partial UTF-8
                                 // (three bytes) then set this option to
                                 // 'utf8_unicode_ci', otherwise this option
                                 // can be removed for MySQL (by default it will
                                 // use 'utf8mb4_unicode_ci'. This option should
                                 // be removed for all other databases.
+    // 'fetchbuffersize' => 100000, // On PostgreSQL, this option sets a limit
+                                // on the number of rows that are fetched into
+                                // memory when doing a large recordset query
+                                // (e.g. search indexing). Default is 100000.
+                                // Uncomment and set to a value to change it,
+                                // or zero to turn off the limit. You need to
+                                // set to zero if you are using pg_bouncer in
+                                // 'transaction' mode (it is fine in 'session'
+                                // mode).
 );
-
-
 //=========================================================================
 // 2. WEB SITE LOCATION
 //=========================================================================
@@ -83,10 +88,7 @@ $CFG->dboptions = array(
 //
 // If you need both intranet and Internet access please read
 // http://docs.moodle.org/en/masquerading
-
-$CFG->wwwroot   = 'https://' . 'YNH_DOMAIN' . 'YNH_WWW_PATH';
-
-
+$CFG->wwwroot   = 'https://YNH_DOMAINYNH_WWW_PATH';
 //=========================================================================
 // 3. DATA FILES LOCATION
 //=========================================================================
@@ -99,10 +101,7 @@ $CFG->wwwroot   = 'https://' . 'YNH_DOMAIN' . 'YNH_WWW_PATH';
 //   no permissions at all, but that "others" have full permissions.
 //
 // - On Windows systems you might specify something like 'c:\moodledata'
-
 $CFG->dataroot  = 'YNH_VAR_ROOT';
-
-
 //=========================================================================
 // 4. DATA FILES PERMISSIONS
 //=========================================================================
@@ -113,10 +112,7 @@ $CFG->dataroot  = 'YNH_VAR_ROOT';
 // if you are concerned about world-access to the files (you will need
 // to make sure the web server process (eg Apache) can access the files.
 // NOTE: the prefixed 0 is important, and don't use quotes.
-
 $CFG->directorypermissions = 02777;
-
-
 //=========================================================================
 // 5. DIRECTORY LOCATION  (most people can just ignore this setting)
 //=========================================================================
@@ -127,10 +123,7 @@ $CFG->directorypermissions = 02777;
 // new name here.  eg "moodleadmin".  This should fix all admin links in Moodle.
 // After any change you need to visit your new admin directory
 // and purge all caches.
-
 $CFG->admin = 'admin';
-
-
 //=========================================================================
 // 6. OTHER MISCELLANEOUS SETTINGS (ignore these for new installations)
 //=========================================================================
@@ -878,8 +871,6 @@ $CFG->admin = 'admin';
 //=========================================================================
 // ALL DONE!  To continue installation, visit your main page with a browser
 //=========================================================================
-
 require_once(__DIR__ . '/lib/setup.php'); // Do not edit
-
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!

@@ -67,7 +67,6 @@ ynh_app_setting_set $app is_public $is_public
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_install_app_dependencies postgresql-9.4
 ynh_install_php7
 #=================================================
 # Create postgresql database

@@ -40,8 +40,8 @@
                     "en": "Choose a path for Moodle",
                     "fr": "Choisissez un chemin pour Moodle"
                 },
-                "example": "/example",
-                "default": "/example"
+                "example": "/moodle",
+                "default": "/moodle"
             },
             {
                 "name": "is_public",
