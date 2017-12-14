@@ -1,0 +1,6 @@
+SOURCE_URL=https://download.moodle.org/download.php/stable34/moodle-latest-34.tgz
+SOURCE_SUM=977012578597718a79ad62fc390b32bf3c7b7ffce241c22875d2127e4e0a5db7
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=
+SOURCE_FILENAME=
