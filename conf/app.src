@@ -1,0 +1,6 @@
+SOURCE_URL=https://download.moodle.org/download.php/stable34/moodle-latest-34.zip
+SOURCE_SUM=cd9319e1048ea0e29b61f4cb4f4c8624ad136528292ddfd4a8d380d292c824d8
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=zip
+SOURCE_IN_SUBDIR=
+SOURCE_FILENAME=
