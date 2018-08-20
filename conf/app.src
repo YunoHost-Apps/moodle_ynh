@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/moodle/moodle/archive/v3.4.0.tar.gz
-SOURCE_SUM=50913fe0e149adf56cfe34f29aec9e79fef17c3ff00590db4f5a643642fa67c7
+SOURCE_URL=https://github.com/moodle/moodle/archive/v3.5.1.tar.gz
+SOURCE_SUM=ccabd372fcdb253a404428196c1cf0a16529797717b443572250103a29ce1799
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=
