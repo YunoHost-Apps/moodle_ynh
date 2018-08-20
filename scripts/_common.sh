@@ -11,3 +11,5 @@ ynh_delete_file_checksum () {
 	local checksum_setting_name=checksum_${1//[\/ ]/_}	# Replace all '/' and ' ' by '_'
 	ynh_app_setting_delete $app $checksum_setting_name
 }
+
+pkg_dependencies="php-zip php-mysql php-xml php-intl php-mbstring php-gd php-curl php-soap php-pgsql php-xmlrpc postgresql"
