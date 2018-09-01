@@ -29,7 +29,6 @@ final_path=$(ynh_app_setting_get $app final_path)
 
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
-ynh_remove_php7
 #=================================================
 # REMOVE THE psql DATABASE
 #=================================================
@@ -53,18 +52,11 @@ ynh_secure_remove "$final_path"
 ynh_remove_nginx_config
 
 #=================================================
-# REMOVE PHP-FPM CONFIGURATION for php7.1
+# REMOVE PHP-FPM CONFIGURATION 
 #=================================================
 
 # Remove the dedicated php-fpm config
-ynh_remove_php7.1-fpm_config
-
-#=================================================
-# REMOVE LOGROTATE CONFIGURATION
-#=================================================
-
-# Remove the app-specific logrotate config
-ynh_remove_logrotate
+ynh_remove_fpm_config
 
 #=================================================
 # SPECIFIC REMOVE

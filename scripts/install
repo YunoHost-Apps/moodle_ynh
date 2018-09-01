@@ -14,6 +14,10 @@ source /usr/share/yunohost/helpers
 # MANAGE SCRIPT FAILURE
 #=================================================
 
+ynh_clean_setup () {
+	### Remove this function if there's nothing to clean before calling the remove script.
+	true
+}
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
@@ -67,7 +71,7 @@ ynh_app_setting_set $app is_public $is_public
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_install_php7
+ynh_install_app_dependencies php-zip php-mysql php-xml php-intl php-mbstring php-gd php-curl php-soap php-pgsql php-xmlrpc postgresql-9.4
 #=================================================
 # Create postgresql database
 #=================================================
@@ -107,8 +111,19 @@ ynh_system_user_create $app
 # PHP-FPM CONFIGURATION
 #=================================================
 
+### `ynh_add_fpm_config` is used to set up a PHP config.
+### You can remove it if your app doesn't use PHP.
+### `ynh_add_fpm_config` will use the files conf/php-fpm.conf and conf/php-fpm.ini
+### If you're not using these lines:
+###		- You can remove these files in conf/.
+###		- Remove the section "BACKUP THE PHP-FPM CONFIGURATION" in the backup script
+###		- Remove also the section "REMOVE PHP-FPM CONFIGURATION" in the remove script
+###		- As well as the section "RESTORE THE PHP-FPM CONFIGURATION" in the restore script
+###		With the reload at the end of the script.
+###		- And the section "PHP-FPM CONFIGURATION" in the upgrade script
+
 # Create a dedicated php-fpm config
-ynh_add_php7.1-fpm_config
+ynh_add_fpm_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -133,7 +148,7 @@ ynh_store_file_checksum "$final_path/config.php"
 
 # Create the home directory
 mkdir -p $var_root
-chown -R $app:root $var_root
+chown -R $app: $var_root
 chmod -R 700 $var_root
 
 #=================================================
@@ -154,13 +169,6 @@ systemctl reload nginx
 
 # Set permissions to app files
 chown  root: $final_path/config.php
-
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-
-# Use logrotate to manage application logfile(s)
-ynh_use_logrotate
 
 
 # Set up poller
