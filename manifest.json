@@ -6,7 +6,7 @@
         "en": "Moodle package for YunoHost application.",
         "fr": "Moodle de package d’application pour YunoHost."
     },
-    "version": "4.0",
+    "version": "3.5.1",
     "url": "https://moodle.org/",
     "license": "free",
     "maintainer": {
@@ -14,7 +14,7 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 2.7.2"
+        "yunohost": ">= 3.0"
     },
     "multi_instance": true,
     "services": [
