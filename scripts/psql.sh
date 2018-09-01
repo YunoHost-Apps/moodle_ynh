@@ -157,3 +157,4 @@ ynh_psql_create_user() {
 ynh_psql_drop_user() {
 	user="$1"
 	sudo --login --user=postgres dropuser "$user"
+}
