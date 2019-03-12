@@ -23,7 +23,7 @@ all manner of organisations and individuals.
  
 ### Upgrade this package:
 
-        $ sudo yunohost app upgrade pia -u https://github.com/YunoHost-Apps/moodle_ynh
+        $ sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh
 
 ## To-do
 - [X] Install script
