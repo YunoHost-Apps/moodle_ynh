@@ -115,6 +115,7 @@ ynh_secure_remove "/etc/cron.d/$app"
 
 # Remove a directory securely
 ynh_secure_remove "/etc/$app/"
+ynh_secure_remove "/home/yunohost.app/$app"
 
 # Remove the log files
 ynh_secure_remove "/var/log/$app/"
