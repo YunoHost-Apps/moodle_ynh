@@ -28,6 +28,6 @@ all manner of organisations and individuals.
 ## To-do
 - [X] Install script
 - [X] Remove script
-- [ ] Upgrade script
+- [x] Upgrade script
 - [X] Backup and Restore scripts(need testing)
 - [ ] LDAP integration
