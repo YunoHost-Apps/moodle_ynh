@@ -65,6 +65,8 @@ ynh_clean_setup () {
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
+cp -a $final_path $final_path.backup
+
 #=================================================
 # CHECK THE PATH
 #=================================================
