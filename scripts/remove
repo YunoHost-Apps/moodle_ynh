@@ -78,10 +78,10 @@ ynh_remove_nginx_config
 #=================================================
 # REMOVE PHP-FPM CONFIGURATION
 #=================================================
-#ynh_print_info "Removing php-fpm configuration"
+ynh_print_info "Removing php-fpm configuration"
 
 # Remove the dedicated php-fpm config
-#ynh_remove_fpm_config
+ynh_remove_fpm_config
 
 #=================================================
 # REMOVE LOGROTATE CONFIGURATION
