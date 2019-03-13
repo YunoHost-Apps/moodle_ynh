@@ -6,8 +6,6 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
-source psql.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
