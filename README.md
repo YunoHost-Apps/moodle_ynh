@@ -18,10 +18,10 @@ all manner of organisations and individuals.
 
          $ sudo yunohost app install https://github.com/YunoHost-Apps/moodle_ynh
          
-        After install :
+         After install :
  
-        1. Login in moodle exemple : https://domain.tld/moodle
-        2. Create admin account
+         1. Login in moodle exemple : https://domain.tld/moodle
+         2. Create admin account
 
  
 ### Upgrade this package:
