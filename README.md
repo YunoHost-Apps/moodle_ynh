@@ -35,6 +35,8 @@ all manner of organisations and individuals.
         3. Moove your plugins / themes exemple "cp -a  moodle.backup/mod/hvp moodle/mod/hvp"
         4. After moving your plugins and themes make "rm -r moodle.backup"
         5. Login in moodle for complete upgrade
+        
+        More informations : https://docs.moodle.org/26/en/Upgrading
 
 ## To-do
 - [X] Install script
