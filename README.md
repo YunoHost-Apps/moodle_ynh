@@ -33,7 +33,7 @@ all manner of organisations and individuals.
         1. If you have custom plugins or themes need to move your plugins
         2. Moodle is saved in /var/www/moodle.backup
         3. Moove your plugins / themes exemple "cp -a  moodle.backup/mod/hvp moodle/mod/hvp"
-        4. After move your plugins and themes make "rm -r moodle.backup"
+        4. After moving your plugins and themes make "rm -r moodle.backup"
         5. Login in moodle for complete upgrade
 
 ## To-do
