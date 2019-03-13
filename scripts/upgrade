@@ -136,10 +136,10 @@ ynh_use_logrotate --non-append
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_print_info "Upgrading systemd configuration..."
+#ynh_print_info "Upgrading systemd configuration..."
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+#ynh_add_systemd_config
 
 #=================================================
 # GENERIC FINALIZATION
