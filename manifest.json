@@ -6,7 +6,7 @@
         "en": "Moodle package for YunoHost application.",
         "fr": "Moodle de package d’application pour YunoHost."
     },
-    "version": "3.5.1",
+    "version": "3.6.3",
     "url": "https://moodle.org/",
     "license": "free",
     "maintainer": {
