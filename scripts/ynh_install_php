@@ -33,8 +33,7 @@ ynh_install_php () {
 	# Install php-fpm first, otherwise php will install apache as a dependency.
 	ynh_add_app_dependencies --package="php${phpversion}-fpm"
 	ynh_add_app_dependencies --package="php$phpversion php${phpversion}-common $package"
-	ynh_add_app_dependencies php7.1-zip php7.1-mysql php7.1-xml php7.1-intl php7.1-mbstring php7.1-gd php7.1-curl php7.1-soap php7.1-pgsql php7.1-xmlrpc
-
+	
 	# Set php7.0 back as the default version for php-cli.
 	update-alternatives --set php /usr/bin/php7.0
 
