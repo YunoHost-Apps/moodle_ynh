@@ -76,6 +76,7 @@ ynh_app_setting_set $app is_public $is_public
 ynh_print_info --message="Installing php7.1..."
 
 ynh_install_php --phpversion="7.1" --package="$extra_pkg_dependencies"
+ynh_install_app_dependencies postgresql
 
 #=================================================
 # Create postgresql database
