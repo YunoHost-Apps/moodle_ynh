@@ -8,6 +8,7 @@
 
 source _common.sh
 source psql.sh
+source ynh_install_php
 source /usr/share/yunohost/helpers
 
 #=================================================
