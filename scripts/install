@@ -74,7 +74,7 @@ ynh_app_setting_set $app is_public $is_public
 # INSTALL DEPENDENCIES
 #=================================================
 ynh_install_php --phpversion=7.1
-ynh_install_app_dependencies php7.1-zip php7.1-mysql php7.1-xml php7.1-intl php7.1-mbstring php7.1-gd php7.1-curl php7.1-soap php7.1-pgsql php7.1-xmlrpc postgresql
+ynh_install_app_dependencies postgresql
 #=================================================
 # Create postgresql database
 #=================================================
