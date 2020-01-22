@@ -1,7 +1,7 @@
 # Moodle app for YunoHost
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=Moodle)<br><br>
 
-Version: **3.7.2**
+Version: **3.8.1**
 Moodle - the world's open source learning platform
 
 Moodle <https://moodle.org> is a learning platform designed to provide
