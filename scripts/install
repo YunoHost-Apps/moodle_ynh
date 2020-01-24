@@ -8,6 +8,8 @@
 
 source _common.sh
 source psql.sh
+source ynh_install_php
+source ynh_add_extra_apt_repos
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -49,49 +51,53 @@ final_path=/var/www/$app
 test ! -e "$final_path" || ynh_die "This path already contains a folder"
 
 # Normalize the url path syntax
-path_url=$(ynh_normalize_url_path $path_url)
+path_url=$(ynh_normalize_url_path "$path_url")
 
 # Check web path availability
-ynh_webpath_available $domain $path_url
+ynh_webpath_available "$domain" "$path_url"
 # Register (book) web path
-ynh_webpath_register $app $domain $path_url
+ynh_webpath_register "$app" "$domain" "$path_url"
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
 
-ynh_app_setting_set $app domain $domain
-ynh_app_setting_set $app path $path_url
-ynh_app_setting_set $app is_public $is_public
+ynh_app_setting_set "$app" domain "$domain"
+ynh_app_setting_set "$app" path "$path_url"
+ynh_app_setting_set "$app" is_public "$is_public"
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
 
 #=================================================
-# INSTALL DEPENDENCIES
+# INSTALL PHP7.3 AND DEPENDENCIES (EXP HELPER)
 #=================================================
-ynh_install_app_dependencies php-zip php-mysql php-xml php-intl php-mbstring php-gd php-curl php-soap php-pgsql php-xmlrpc postgresql
+ynh_print_info --message="Installing php7.1..."
+
+ynh_install_php --phpversion="7.1" --package="$extra_pkg_dependencies"
+ynh_install_app_dependencies postgresql
+
 #=================================================
 # Create postgresql database
 #=================================================
 
 db_name=$app
 db_pwd=$(ynh_string_random 30)
-ynh_app_setting_set $app psql_db $db_name
-ynh_app_setting_set $app psqlpwd $db_pwd
+ynh_app_setting_set "$app" psql_db "$db_name"
+ynh_app_setting_set "$app" psqlpwd "$db_pwd"
 ynh_psql_test_if_first_run
-ynh_psql_create_user $app $db_pwd
+ynh_psql_create_user "$app" "$db_pwd"
 ynh_psql_execute_as_root \
 "CREATE DATABASE $db_name ENCODING 'UTF8' LC_COLLATE='C' LC_CTYPE='C' template=template0 OWNER $app;"
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set "$app" final_path "$final_path"
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source "$final_path"
-cp  ../conf/config.php $final_path/.
+cp  ../conf/config.php "$final_path"/.
 
 #=================================================
 # NGINX CONFIGURATION
@@ -105,7 +111,7 @@ ynh_add_nginx_config
 #=================================================
 
 # Create a system user
-ynh_system_user_create $app
+ynh_system_user_create "$app"
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -123,7 +129,7 @@ ynh_system_user_create $app
 ###		- And the section "PHP-FPM CONFIGURATION" in the upgrade script
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config
+ynh_add_fpm_config --phpversion="7.1"
 
 #=================================================
 # SPECIFIC SETUP
@@ -147,16 +153,16 @@ ynh_replace_string "YNH_VAR_ROOT" "$var_root" "$final_path/config.php"
 ynh_store_file_checksum "$final_path/config.php"
 
 # Create the home directory
-mkdir -p $var_root
-chown -R $app: $var_root
-chmod -R 700 $var_root
+mkdir -p "$var_root"
+chown -R "$app": "$var_root"
+chmod -R 700 "$var_root"
 
 #=================================================
 # SETUP APPLICATION WITH CURL
 #=================================================
 
 # Set right permissions for curl install
-chown -R $app: $final_path
+chown -R "$app": "$final_path"
 
 # Reload Nginx
 systemctl reload nginx
@@ -168,26 +174,26 @@ systemctl reload nginx
 #=================================================
 
 # Set permissions to app files
-chown  root: $final_path/config.php
+chown  root: "$final_path"/config.php
 
 
 # Set up poller
-sudo cp ../conf/cron /etc/cron.d/$app
+sudo cp ../conf/cron /etc/cron.d/"$app"
 ynh_replace_string "YNH_DOMAIN" "$final_path" "/etc/cron.d/$app"
 
 #=================================================
 # SETUP SSOWAT
 #=================================================
 
-if [ $is_public -eq 0 ]
+if [ "$is_public" -eq 0 ]
 then	# Remove the public access
-	ynh_app_setting_delete $app skipped_uris
+	ynh_app_setting_delete "$app" skipped_uris
 fi
 # Make app public if necessary
-if [ $is_public -eq 1 ]
+if [ "$is_public" -eq 1 ]
 then
 	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set $app unprotected_uris "/"
+	ynh_app_setting_set "$app" unprotected_uris "/"
 fi
 
 yunohost app ssowatconf
