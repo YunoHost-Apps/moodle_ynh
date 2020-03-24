@@ -49,14 +49,6 @@
 					"fr": "Administrateur du site (doit être un utilisateur YunoHost existant)"
 				},
 				"example": "johndoe"
-			},
-			{
-				"name": "password",
-				"type": "password",
-				"ask": {
-					"en": "Choose a password for the administrator",
-					"fr": "Choisissez un mot de passe pour l'administrateur"
-				}
 			},            
             {
                 "name": "is_public",

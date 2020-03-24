@@ -25,7 +25,6 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
-password=$YNH_APP_ARG_PASSWORD
 is_public=$YNH_APP_ARG_IS_PUBLIC
 
 app=$YNH_APP_INSTANCE_NAME
@@ -51,7 +50,6 @@ ynh_script_progression --message="Storing installation settings..."
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
-ynh_app_setting_set --app=$app --key=password --value=$password
 ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 
 #=================================================
@@ -128,6 +126,7 @@ chown -R "$app": "$final_path"
 ynh_script_progression --message="Configuring the application..." --weight=190
 
 email=$(ynh_user_get_info $admin mail)
+password=$(ynh_string_random --length=30)
 
 exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_path --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
@@ -147,6 +146,9 @@ ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plu
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='mail' WHERE plugin='auth_ldap' AND name='field_map_email';"
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
+
+# The admin is an ldap user
+ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
 exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/purge_caches.php"
 

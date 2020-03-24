@@ -148,6 +148,9 @@ ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plu
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
 
+# The admin is an ldap user
+ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
+
 exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
