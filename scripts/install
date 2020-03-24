@@ -37,8 +37,8 @@ ynh_script_progression --message="Validating installation parameters..."
 
 final_path=/var/www/$app
 test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
-data_root=/home/yunohost.app/$app
-test ! -e "$data_root" || ynh_die --message="This path already contains a folder"
+data_path=/home/yunohost.app/$app
+test ! -e "$data_path" || ynh_die --message="This path already contains a folder"
 
 # Register (book) web path
 ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
@@ -117,9 +117,9 @@ ynh_add_fpm_config --phpversion="7.3"
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-ynh_app_setting_set --app=$app --key=data_root --value=$data_root
-mkdir -p $data_root
-chown -R "$app": "$data_root"
+ynh_app_setting_set --app=$app --key=data_path --value=$data_path
+mkdir -p $data_path
+chown -R "$app": "$data_path"
 chown -R "$app": "$final_path"
 
 #=================================================
@@ -129,7 +129,7 @@ ynh_script_progression --message="Configuring the application..." --weight=190
 
 email=$(ynh_user_get_info $admin mail)
 
-exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_root --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_path --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$final_path/config.php"

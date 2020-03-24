@@ -28,7 +28,7 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-data_root=$(ynh_app_setting_get --app=$app --key=data_root)
+data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 
 #=================================================
@@ -40,8 +40,8 @@ ynh_webpath_available --domain=$domain --path_url=$path_url \
 	|| ynh_die --message="Path not available: ${domain}${path_url}"
 test ! -d $final_path \
 	|| ynh_die --message="There is already a directory: $final_path "
-test ! -d $data_root \
-	|| ynh_die --message="There is already a directory: $data_root "
+test ! -d $data_path \
+	|| ynh_die --message="There is already a directory: $data_path "
 
 #=================================================
 # STANDARD RESTORATION STEPS
@@ -58,7 +58,7 @@ ynh_script_progression --message="Restoring the app main directory..."
 
 ynh_restore_file --origin_path="$final_path"
 
-ynh_restore_file --origin_path="$data_root"
+ynh_restore_file --origin_path="$data_path"
 
 #=================================================
 # RECREATE THE DEDICATED USER
@@ -74,7 +74,7 @@ ynh_system_user_create --username=$app
 
 # Restore permissions on app files
 chown -R $app: $final_path
-chown -R $app: $data_root
+chown -R $app: $data_path
 
 #=================================================
 # RESTORE THE PHP-FPM CONFIGURATION
