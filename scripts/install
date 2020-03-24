@@ -7,10 +7,9 @@
 #=================================================
 
 source _common.sh
-source psql.sh
-source ynh_install_php
-source ynh_add_extra_apt_repos
 source /usr/share/yunohost/helpers
+source ynh_add_extra_apt_repos
+source ynh_install_php
 
 #=================================================
 # MANAGE SCRIPT FAILURE
@@ -29,79 +28,72 @@ ynh_abort_if_errors
 
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
+admin=$YNH_APP_ARG_ADMIN
+password=$YNH_APP_ARG_PASSWORD
 is_public=$YNH_APP_ARG_IS_PUBLIC
 
-# This is a multi-instance app, meaning it can be installed several times independently
-# The id of the app as stated in the manifest is available as $YNH_APP_ID
-# The instance number is available as $YNH_APP_INSTANCE_NUMBER (equals "1", "2", ...)
-# The app instance name is available as $YNH_APP_INSTANCE_NAME
-#    - the first time the app is installed, YNH_APP_INSTANCE_NAME = ynhexample
-#    - the second time the app is installed, YNH_APP_INSTANCE_NAME = ynhexample__2
-#    - ynhexample__{N} for the subsequent installations, with N=3,4, ...
-# The app instance name is probably what you are interested the most, since this is
-# guaranteed to be unique. This is a good unique identifier to define installation path,
-# db names, ...
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
+ynh_script_progression --message="Validating installation parameters..." --time --weight=1
 
 final_path=/var/www/$app
-test ! -e "$final_path" || ynh_die "This path already contains a folder"
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
+data_root=/home/yunohost.app/$app
+test ! -e "$data_root" || ynh_die --message="This path already contains a folder"
 
-# Normalize the url path syntax
-path_url=$(ynh_normalize_url_path "$path_url")
-
-# Check web path availability
-ynh_webpath_available "$domain" "$path_url"
 # Register (book) web path
-ynh_webpath_register "$app" "$domain" "$path_url"
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
+ynh_script_progression --message="Storing installation settings..." --time --weight=1
 
-ynh_app_setting_set "$app" domain "$domain"
-ynh_app_setting_set "$app" path "$path_url"
-ynh_app_setting_set "$app" is_public "$is_public"
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=password --value=$password
+ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Installing dependencies..." --time --weight=1
+
+ynh_install_app_dependencies $pkg_dependencies
+ynh_install_php --phpversion="$YNH_PHP_VERSION" --package="$extra_pkg_dependencies"
 
 #=================================================
-# INSTALL PHP7.3 AND DEPENDENCIES (EXP HELPER)
+# CREATE POSTGRESQL DATABASE
 #=================================================
-ynh_print_info --message="Installing php7.1..."
+ynh_script_progression --message="Creating a PostgreSQL database..." --time --weight=1
 
-ynh_install_php --phpversion="7.1" --package="$extra_pkg_dependencies"
-ynh_install_app_dependencies postgresql
-
-#=================================================
-# Create postgresql database
-#=================================================
-
-db_name=$app
-db_pwd=$(ynh_string_random 30)
-ynh_app_setting_set "$app" psql_db "$db_name"
-ynh_app_setting_set "$app" psqlpwd "$db_pwd"
 ynh_psql_test_if_first_run
-ynh_psql_create_user "$app" "$db_pwd"
-ynh_psql_execute_as_root \
-"CREATE DATABASE $db_name ENCODING 'UTF8' LC_COLLATE='C' LC_CTYPE='C' template=template0 OWNER $app;"
+
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_psql_setup_db --db_user=$db_name --db_name=$db_name
+
+db_pwd=$(ynh_app_setting_get $app psqlpwd)
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Setting up source files..." --time --weight=1
 
-ynh_app_setting_set "$app" final_path "$final_path"
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source "$final_path"
-cp  ../conf/config.php "$final_path"/.
+ynh_setup_source --dest_dir="$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Configuring nginx web server..." --time --weight=1
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -109,97 +101,74 @@ ynh_add_nginx_config
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
+ynh_script_progression --message="Configuring system user..." --time --weight=1
 
 # Create a system user
-ynh_system_user_create "$app"
+ynh_system_user_create --username=$app
+
 
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-
-### `ynh_add_fpm_config` is used to set up a PHP config.
-### You can remove it if your app doesn't use PHP.
-### `ynh_add_fpm_config` will use the files conf/php-fpm.conf and conf/php-fpm.ini
-### If you're not using these lines:
-###		- You can remove these files in conf/.
-###		- Remove the section "BACKUP THE PHP-FPM CONFIGURATION" in the backup script
-###		- Remove also the section "REMOVE PHP-FPM CONFIGURATION" in the remove script
-###		- As well as the section "RESTORE THE PHP-FPM CONFIGURATION" in the restore script
-###		With the reload at the end of the script.
-###		- And the section "PHP-FPM CONFIGURATION" in the upgrade script
+ynh_script_progression --message="Configuring php-fpm..." --time --weight=1
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="7.1"
+ynh_add_fpm_config --phpversion="7.3"
 
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# SETUP config file
+# SECURE FILES AND DIRECTORIES
 #=================================================
-var_root=/home/yunohost.app/$app
-ynh_replace_string "YNH_DB_USER" "$app" "$final_path/config.php"
-ynh_replace_string "YNH_APP" "$db_name" "$final_path/config.php"
-ynh_replace_string "YNH_DB_PWD" "$db_pwd" "$final_path/config.php"
-ynh_replace_string "YNH_DOMAIN" "$domain" "$final_path/config.php"
-if [ "$path_url" = "/" ]
-then
-	ynh_replace_string "YNH_WWW_PATH" "" "$final_path/config.php"
-else
-	ynh_replace_string "YNH_WWW_PATH" "$path_url" "$final_path/config.php"
-fi
-ynh_replace_string "YNH_VAR_ROOT" "$var_root" "$final_path/config.php"
+
+ynh_app_setting_set --app=$app --key=data_root --value=$data_root
+mkdir -p $data_root
+chown -R "$app": "$data_root"
+chown -R "$app": "$final_path"
+
+#=================================================
+# SETUP APPLICATION
+#=================================================
+ynh_script_progression --message="Configuring the application..." --time --weight=1
+
+email=$(ynh_user_get_info $admin mail)
+
+exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_root --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$final_path/config.php"
 
-# Create the home directory
-mkdir -p "$var_root"
-chown -R "$app": "$var_root"
-chmod -R 700 "$var_root"
-
 #=================================================
-# SETUP APPLICATION WITH CURL
+# ADD CRON JOB
 #=================================================
 
-# Set right permissions for curl install
-chown -R "$app": "$final_path"
-
-# Reload Nginx
-systemctl reload nginx
+# Set up poller
+sudo cp "../conf/cron" "/etc/cron.d/$app"
+ynh_replace_string "__FINAL_PATH__" "$final_path" "/etc/cron.d/$app"
+ynh_replace_string "__YNH_PHP_VERSION__" "$YNH_PHP_VERSION" "/etc/cron.d/$app"
 
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions to app files
-chown  root: "$final_path"/config.php
-
-
-# Set up poller
-sudo cp ../conf/cron /etc/cron.d/"$app"
-ynh_replace_string "YNH_DOMAIN" "$final_path" "/etc/cron.d/$app"
-
-#=================================================
 # SETUP SSOWAT
 #=================================================
 
-if [ "$is_public" -eq 0 ]
-then	# Remove the public access
-	ynh_app_setting_delete "$app" skipped_uris
-fi
 # Make app public if necessary
 if [ "$is_public" -eq 1 ]
 then
 	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set "$app" unprotected_uris "/"
+	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
 fi
-
-yunohost app ssowatconf
 
 #=================================================
 # RELOAD NGINX
 #=================================================
+ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
 
-systemctl reload nginx
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Installation of $app completed" --time --last
