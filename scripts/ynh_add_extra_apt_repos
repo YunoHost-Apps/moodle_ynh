@@ -1,87 +1,73 @@
-#!/bin/bash
-
-# Pin a repository.
+# Add dependencies to install with ynh_install_app_dependencies
 #
-# usage: ynh_pin_repo --package=packages --pin=pin_filter [--priority=priority_value] [--name=name] [--append]
-# | arg: -p, --package - Packages concerned by the pin. Or all, *.
-# | arg: -i, --pin - Filter for the pin.
-# | arg: -p, --priority - Priority for the pin
-# | arg: -n, --name - Name for the files for this repo, $app as default value.
-# | arg: -a, --append - Do not overwrite existing files.
+# [internal]
 #
-# See https://manpages.debian.org/stretch/apt/apt_preferences.5.en.html for information about pinning.
-#
-ynh_pin_repo () {
+# usage: ynh_add_app_dependencies --package=phpversion [--replace]
+# | arg: -p, --package - Packages to add as dependencies for the app.
+# | arg: -r, --replace - Replace dependencies instead of adding to existing ones.
+ynh_add_app_dependencies () {
 	# Declare an array to define the options of this helper.
-	local legacy_args=pirna
-	declare -Ar args_array=( [p]=package= [i]=pin= [r]=priority= [n]=name= [a]=append )
+	local legacy_args=pr
+	declare -Ar args_array=( [p]=package= [r]=replace)
 	local package
-	local pin
-	local priority
-	local name
-	local append
+	local replace
 	# Manage arguments with getopts
 	ynh_handle_getopts_args "$@"
-	package="${package:-*}"
-	priority=${priority:-50}
-	name="${name:-$app}"
-	append=${append:-0}
+	replace=${replace:-0}
 
-	if [ $append -eq 1 ]
+	local current_dependencies=""
+	if [ $replace -eq 0 ]
 	then
-		append="tee -a"
-	else
-		append="tee"
+		local dep_app=${app//_/-}	# Replace all '_' by '-'
+		if ynh_package_is_installed --package="${dep_app}-ynh-deps"
+		then
+			current_dependencies="$(dpkg-query --show --showformat='${Depends}' ${dep_app}-ynh-deps) "
+		fi
+
+		current_dependencies=${current_dependencies// | /|}
 	fi
 
-	mkdir -p "/etc/apt/preferences.d"
-	echo "Package: $package
-Pin: $pin
-Pin-Priority: $priority" \
-	| $append "/etc/apt/preferences.d/$name"
+	ynh_install_app_dependencies "${current_dependencies}${package}"
 }
 
-# Add a repository.
+# Install packages from an extra repository properly.
 #
-# usage: ynh_add_repo --uri=uri --suite=suite --component=component [--name=name] [--append]
-# | arg: -u, --uri - Uri of the repository.
-# | arg: -s, --suite - Suite of the repository.
-# | arg: -c, --component - Component of the repository.
+# usage: ynh_install_extra_app_dependencies --repo="repo" --package="dep1 dep2" [--key=key_url] [--name=name]
+# | arg: -r, --repo - Complete url of the extra repository.
+# | arg: -p, --package - The packages to install from this extra repository
+# | arg: -k, --key - url to get the public key.
 # | arg: -n, --name - Name for the files for this repo, $app as default value.
-# | arg: -a, --append - Do not overwrite existing files.
-#
-# Example for a repo like deb http://forge.yunohost.org/debian/ stretch stable
-#                             uri                               suite   component
-# ynh_add_repo --uri=http://forge.yunohost.org/debian/ --suite=stretch --component=stable
-#
-ynh_add_repo () {
+ynh_install_extra_app_dependencies () {
 	# Declare an array to define the options of this helper.
-	local legacy_args=uscna
-	declare -Ar args_array=( [u]=uri= [s]=suite= [c]=component= [n]=name= [a]=append )
-	local uri
-	local suite
-	local component
+	local legacy_args=rpkn
+	declare -Ar args_array=( [r]=repo= [p]=package= [k]=key= [n]=name= )
+	local repo
+	local package
+	local key
 	local name
-	local append
 	# Manage arguments with getopts
 	ynh_handle_getopts_args "$@"
 	name="${name:-$app}"
-	append=${append:-0}
+	key=${key:-0}
 
-	if [ $append -eq 1 ]
+	# Set a key only if asked
+	if [ -n "$key" ]
 	then
-		append="tee -a"
-	else
-		append="tee"
+		key="--key=$key"
 	fi
+	# Add an extra repository for those packages
+	ynh_install_extra_repo --repo="$repo" $key --priority=995 --name=$name
 
-	mkdir -p "/etc/apt/sources.list.d"
-	# Add the new repo in sources.list.d
-	echo "deb $uri $suite $component" \
-		| $append "/etc/apt/sources.list.d/$name.list"
+	# Install requested dependencies from this extra repository.
+	ynh_add_app_dependencies --package="$package"
+
+	# Remove this extra repository after packages are installed
+	ynh_remove_extra_repo --name=$app
 }
 
 # Add an extra repository correctly, pin it and get the key.
+#
+# [internal]
 #
 # usage: ynh_install_extra_repo --repo="repo" [--key=key_url] [--priority=priority_value] [--name=name] [--append]
 # | arg: -r, --repo - Complete url of the extra repository.
@@ -154,6 +140,8 @@ ynh_install_extra_repo () {
 
 # Remove an extra repository and the assiociated configuration.
 #
+# [internal]
+#
 # usage: ynh_remove_extra_repo [--name=name]
 # | arg: -n, --name - Name for the files for this repo, $app as default value.
 ynh_remove_extra_repo () {
@@ -174,121 +162,88 @@ ynh_remove_extra_repo () {
 	ynh_package_update
 }
 
-# Install packages from an extra repository properly.
+# Add a repository.
 #
-# usage: ynh_install_extra_app_dependencies --repo="repo" --package="dep1 dep2" [--key=key_url] [--name=name]
-# | arg: -r, --repo - Complete url of the extra repository.
-# | arg: -p, --package - The packages to install from this extra repository
-# | arg: -k, --key - url to get the public key.
+# [internal]
+#
+# usage: ynh_add_repo --uri=uri --suite=suite --component=component [--name=name] [--append]
+# | arg: -u, --uri - Uri of the repository.
+# | arg: -s, --suite - Suite of the repository.
+# | arg: -c, --component - Component of the repository.
 # | arg: -n, --name - Name for the files for this repo, $app as default value.
-ynh_install_extra_app_dependencies () {
+# | arg: -a, --append - Do not overwrite existing files.
+#
+# Example for a repo like deb http://forge.yunohost.org/debian/ stretch stable
+#                             uri                               suite   component
+# ynh_add_repo --uri=http://forge.yunohost.org/debian/ --suite=stretch --component=stable
+#
+ynh_add_repo () {
 	# Declare an array to define the options of this helper.
-	local legacy_args=rpkn
-	declare -Ar args_array=( [r]=repo= [p]=package= [k]=key= [n]=name= )
-	local repo
-	local package
-	local key
+	local legacy_args=uscna
+	declare -Ar args_array=( [u]=uri= [s]=suite= [c]=component= [n]=name= [a]=append )
+	local uri
+	local suite
+	local component
 	local name
+	local append
 	# Manage arguments with getopts
 	ynh_handle_getopts_args "$@"
 	name="${name:-$app}"
-	key=${key:-0}
+	append=${append:-0}
 
-	# Set a key only if asked
-	if [ -n "$key" ]
+	if [ $append -eq 1 ]
 	then
-		key="--key=$key"
+		append="tee -a"
+	else
+		append="tee"
 	fi
-	# Add an extra repository for those packages
-	ynh_install_extra_repo --repo="$repo" $key --priority=995 --name=$name
 
-	# Install requested dependencies from this extra repository.
-	ynh_add_app_dependencies --package="$package"
-
-	# Remove this extra repository after packages are installed
-	ynh_remove_extra_repo --name=$app
+	mkdir -p "/etc/apt/sources.list.d"
+	# Add the new repo in sources.list.d
+	echo "deb $uri $suite $component" \
+		| $append "/etc/apt/sources.list.d/$name.list"
 }
 
-#=================================================
-
-# patched version of ynh_install_app_dependencies to be used with ynh_add_app_dependencies
-
-# Define and install dependencies with a equivs control file
-# This helper can/should only be called once per app
+# Pin a repository.
 #
-# usage: ynh_install_app_dependencies dep [dep [...]]
-# | arg: dep - the package name to install in dependence
-#   You can give a choice between some package with this syntax : "dep1|dep2"
-#   Example : ynh_install_app_dependencies dep1 dep2 "dep3|dep4|dep5"
-#   This mean in the dependence tree : dep1 & dep2 & (dep3 | dep4 | dep5)
+# [internal]
 #
-# Requires YunoHost version 2.6.4 or higher.
-ynh_install_app_dependencies () {
-    local dependencies=$@
-    dependencies="$(echo "$dependencies" | sed 's/\([^\<=\>]\)\ \([^(]\)/\1, \2/g')"
-    dependencies=${dependencies//|/ | }
-    local manifest_path="../manifest.json"
-    if [ ! -e "$manifest_path" ]; then
-    	manifest_path="../settings/manifest.json"	# Into the restore script, the manifest is not at the same place
-    fi
-
-    local version=$(grep '\"version\": ' "$manifest_path" | cut -d '"' -f 4)	# Retrieve the version number in the manifest file.
-    if [ ${#version} -eq 0 ]; then
-        version="1.0"
-    fi
-    local dep_app=${app//_/-}	# Replace all '_' by '-'
-
-    # Handle specific versions
-    if [[ "$dependencies" =~ [\<=\>] ]]
-    then
-        # Replace version specifications by relationships syntax
-        # https://www.debian.org/doc/debian-policy/ch-relationships.html
-        # Sed clarification
-        # [^(\<=\>] ignore if it begins by ( or < = >. To not apply twice.
-        # [\<=\>] matches < = or >
-        # \+ matches one or more occurence of the previous characters, for >= or >>.
-        # [^,]\+ matches all characters except ','
-        # Ex: package>=1.0 will be replaced by package (>= 1.0)
-        dependencies="$(echo "$dependencies" | sed 's/\([^(\<=\>]\)\([\<=\>]\+\)\([^,]\+\)/\1 (\2 \3)/g')"
-    fi
-
-    cat > /tmp/${dep_app}-ynh-deps.control << EOF	# Make a control file for equivs-build
-Section: misc
-Priority: optional
-Package: ${dep_app}-ynh-deps
-Version: ${version}
-Depends: ${dependencies}
-Architecture: all
-Description: Fake package for $app (YunoHost app) dependencies
- This meta-package is only responsible of installing its dependencies.
-EOF
-    ynh_package_install_from_equivs /tmp/${dep_app}-ynh-deps.control \
-        || ynh_die --message="Unable to install dependencies"	# Install the fake package and its dependencies
-    rm /tmp/${dep_app}-ynh-deps.control
-    ynh_app_setting_set --app=$app --key=apt_dependencies --value="$dependencies"
-}
-
-ynh_add_app_dependencies () {
+# usage: ynh_pin_repo --package=packages --pin=pin_filter [--priority=priority_value] [--name=name] [--append]
+# | arg: -p, --package - Packages concerned by the pin. Or all, *.
+# | arg: -i, --pin - Filter for the pin.
+# | arg: -p, --priority - Priority for the pin
+# | arg: -n, --name - Name for the files for this repo, $app as default value.
+# | arg: -a, --append - Do not overwrite existing files.
+#
+# See https://manpages.debian.org/stretch/apt/apt_preferences.5.en.html for information about pinning.
+#
+ynh_pin_repo () {
 	# Declare an array to define the options of this helper.
-	local legacy_args=pr
-	declare -Ar args_array=( [p]=package= [r]=replace)
+	local legacy_args=pirna
+	declare -Ar args_array=( [p]=package= [i]=pin= [r]=priority= [n]=name= [a]=append )
 	local package
-	local replace
+	local pin
+	local priority
+	local name
+	local append
 	# Manage arguments with getopts
 	ynh_handle_getopts_args "$@"
-	replace=${replace:-0}
+	package="${package:-*}"
+	priority=${priority:-50}
+	name="${name:-$app}"
+	append=${append:-0}
 
-	local current_dependencies=""
-	if [ $replace -eq 0 ]
+	if [ $append -eq 1 ]
 	then
-		local dep_app=${app//_/-}	# Replace all '_' by '-'
-		if ynh_package_is_installed --package="${dep_app}-ynh-deps"
-		then
-			current_dependencies="$(dpkg-query --show --showformat='${Depends}' ${dep_app}-ynh-deps) "
-		fi
-
-		current_dependencies=${current_dependencies// | /|}
+		append="tee -a"
+	else
+		append="tee"
 	fi
 
-	ynh_install_app_dependencies "${current_dependencies}${package}"
+	mkdir -p "/etc/apt/preferences.d"
+	echo "Package: $package
+Pin: $pin
+Pin-Priority: $priority
+" \
+	| $append "/etc/apt/preferences.d/$name"
 }
