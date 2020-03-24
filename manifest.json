@@ -8,7 +8,7 @@
     },
     "version": "3.8.2",
     "url": "https://moodle.org/",
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "maintainer": {
         "name": "Anmol Sharma",
         "email": "anmol@datamol.org"

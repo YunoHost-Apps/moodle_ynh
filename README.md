@@ -1,48 +1,69 @@
 # Moodle app for YunoHost
-[![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=Moodle)<br><br>
 
-Version: **3.8.1**
-Moodle - the world's open source learning platform
+[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle)  
+[![Install moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=moodle)
 
-Moodle <https://moodle.org> is a learning platform designed to provide
-educators, administrators and learners with a single robust, secure and
-integrated system to create personalised learning environments.
+*[Lire ce readme en français.](./README_fr.md)*
 
-Moodle is widely used around the world by universities, schools, companies and
-all manner of organisations and individuals.
+> *This package allow you to install moodle quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
 
+## Overview
+Moodle https://moodle.org is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments.
 
-### Installing guide
+Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
- App can be installed by YunoHost **admin web-interface** or by **running following command**:
+**Shipped version:** 3.8.2
 
-         $ sudo yunohost app install https://github.com/YunoHost-Apps/moodle_ynh
-         
-         After install :
- 
-         1. Login in moodle exemple : https://domain.tld/moodle
-         2. Create admin account
+## Screenshots
 
- 
-### Upgrade this package:
+![](https://upload.wikimedia.org/wikipedia/commons/3/36/Moodle_2.0_on_Firefox_4.0.png)
 
-        $ sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh
-        
-        After upgrade :
- 
-        1. If you have custom plugins or themes need to move your plugins
-        2. Moodle is saved in /var/www/moodle.backup
-        3. Moove your plugins / themes exemple "cp -a  moodle.backup/mod/hvp moodle/mod/hvp"
-        4. After moving your plugins and themes make "rm -r moodle.backup"
-        5. Login in moodle for complete upgrade
-        
-More informations : https://docs.moodle.org/26/en/Upgrading        
+## Demo
 
+* [Official demo](https://sandbox.moodledemo.net/)
 
+## Configuration
 
-## To-do
-- [X] Install script
-- [X] Remove script
-- [x] Upgrade script
-- [X] Backup and Restore scripts(need testing)
-- [ ] LDAP integration
+How to configure this app: by an admin panel.
+
+## Documentation
+
+ * Official documentation: https://docs.moodle.org/38/en/Main_page
+
+## YunoHost specific features
+
+#### Multi-users support
+
+Are LDAP and HTTP auth supported?  *Yes*  
+Can the app be used by multiple users? *Yes*
+
+#### Supported architectures
+
+* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/moodle%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/moodle%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/moodle/)
+
+**More information on the documentation page:**  
+https://yunohost.org/packaging_apps
+
+## Links
+
+ * Report a bug: https://github.com/YunoHost-Apps/moodle_ynh/issues
+ * App website: https://moodle.org/
+ * Upstream app repository: http://git.moodle.org/ - https://github.com/moodle/moodle 
+ * YunoHost website: https://yunohost.org/
+
+---
+
+Developers info
+----------------
+
+**Only if you want to use a testing branch for coding, instead of merging directly into master.**
+Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing).
+
+To try the testing branch, please proceed like that.
+```
+sudo yunohost app install https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
+or
+sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
+```
