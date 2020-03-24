@@ -64,7 +64,7 @@ ynh_script_progression --message="Removing php-fpm configuration..." --weight=20
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
-ynh_remove_php "7.3"
+ynh_remove_php "$YNH_PHP_VERSION"
 
 #=================================================
 # SPECIFIC REMOVE
