@@ -6,7 +6,7 @@
         "en": "Moodle package for YunoHost application.",
         "fr": "Moodle de package d’application pour YunoHost."
     },
-    "version": "3.8.1",
+    "version": "3.8.2",
     "url": "https://moodle.org/",
     "license": "GPL-3.0",
     "maintainer": {
@@ -14,13 +14,11 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 3.0"
+        "yunohost": ">= 3.5"
     },
     "multi_instance": true,
     "services": [
-        "nginx",
-        "php7.1-fpm",
-        "psql"
+        "nginx"
     ],
     "arguments": {
         "install" : [
@@ -43,6 +41,23 @@
                 "example": "/moodle",
                 "default": "/moodle"
             },
+			{
+				"name": "admin",
+				"type": "user",
+				"ask": {
+					"en": "Choose the Moodle administrator (must be an existing YunoHost user)",
+					"fr": "Administrateur du site (doit être un utilisateur YunoHost existant)"
+				},
+				"example": "johndoe"
+			},
+			{
+				"name": "password",
+				"type": "password",
+				"ask": {
+					"en": "Choose a password for the administrator",
+					"fr": "Choisissez un mot de passe pour l'administrateur"
+				}
+			},            
             {
                 "name": "is_public",
                 "type": "boolean",
