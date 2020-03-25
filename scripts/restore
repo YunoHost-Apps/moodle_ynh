@@ -96,7 +96,7 @@ ynh_install_php --phpversion="$YNH_PHP_VERSION" --package="$extra_pkg_dependenci
 #=================================================
 # RESTORE THE POSTGRESQL DATABASE
 #=================================================
-ynh_script_progression --message="Restoring the PostgreSQL database..."--weight=47
+ynh_script_progression --message="Restoring the PostgreSQL database..." --weight=47
 
 ynh_psql_test_if_first_run
 
