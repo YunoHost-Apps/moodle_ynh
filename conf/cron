@@ -1,1 +1,1 @@
-*/15 * * * *    /usr/bin/php__YNH_PHP_VERSION__ __FINAL_PATH__/admin/cli/cron.php >/dev/null
+*/15 * * * * __APP__ /usr/bin/php__YNH_PHP_VERSION__ -f __FINAL_PATH__/admin/cli/cron.php
