@@ -64,7 +64,10 @@ ynh_script_progression --message="Removing php-fpm configuration..." --weight=20
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
-ynh_remove_php "$YNH_PHP_VERSION"
+
+if [ "$(lsb_release --codename --short)" = "stretch" ]; then
+    ynh_remove_php
+fi
 
 #=================================================
 # SPECIFIC REMOVE
