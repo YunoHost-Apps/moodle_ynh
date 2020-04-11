@@ -7,9 +7,9 @@
 #=================================================
 
 source ../settings/scripts/_common.sh
-source /usr/share/yunohost/helpers
 source ../settings/scripts/ynh_add_extra_apt_repos
 source ../settings/scripts/ynh_install_php
+source /usr/share/yunohost/helpers
 
 #=================================================
 # MANAGE SCRIPT FAILURE
