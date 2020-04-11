@@ -3,8 +3,8 @@
     "id": "moodle",
     "packaging_format": 1,
     "description": {
-        "en": "Moodle package for YunoHost application.",
-        "fr": "Moodle de package d’application pour YunoHost."
+        "en": "An online learning platform",
+        "fr": "Une plateforme d'apprentissage en ligne"
     },
     "version": "3.8.2~ynh2",
     "url": "https://moodle.org/",
