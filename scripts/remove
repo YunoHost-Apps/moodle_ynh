@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos
-source ynh_install_php
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -20,6 +18,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 
@@ -28,10 +27,10 @@ data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 #=================================================
 # REMOVE THE POSTGRESQL DATABASE
 #=================================================
-ynh_script_progression --message="Removing the PostgresSQL database..."
+ynh_script_progression --message="Removing the PostgreSQL database..."
 
 # Remove a database if it exists, along with the associated user
-ynh_psql_remove_db --db_user=$db_name --db_name=$db_name
+ynh_psql_remove_db --db_user="$db_user" --db_name="$db_name"
 
 #=================================================
 # REMOVE DEPENDENCIES
@@ -65,15 +64,12 @@ ynh_script_progression --message="Removing php-fpm configuration..." --weight=20
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
 
-if [ "$(lsb_release --codename --short)" = "stretch" ]; then
-    ynh_remove_php
-fi
-
 #=================================================
 # SPECIFIC REMOVE
 #=================================================
-# REMOVE THE CRON FILE
+# REMOVE VARIOUS FILES
 #=================================================
+ynh_script_progression --message="Removing various files..."
 
 # Remove a cron file
 ynh_secure_remove --file="/etc/cron.d/$app"

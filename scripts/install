@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos
-source ynh_install_php
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -26,6 +24,8 @@ domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
+email=$(ynh_user_get_info $admin mail)
+password=$(ynh_string_random --length=30)
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -57,15 +57,9 @@ ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Installing dependencies..." --weight=60
+ynh_script_progression --message="Installing dependencies..."
 
-if [ "$(lsb_release --codename --short)" = "stretch" ]; then
-	ynh_install_app_dependencies $pkg_dependencies
-	ynh_install_php --phpversion="$YNH_PHP_VERSION" --package="$extra_pkg_dependencies"
-else
-	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
-	ynh_install_app_dependencies $pkg_dependencies
-fi
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE POSTGRESQL DATABASE
@@ -75,8 +69,9 @@ ynh_script_progression --message="Creating a PostgreSQL database..." --weight=4
 ynh_psql_test_if_first_run
 
 db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
 ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-ynh_psql_setup_db --db_user=$db_name --db_name=$db_name
+ynh_psql_setup_db --db_user=$db_user --db_name=$db_name
 
 db_pwd=$(ynh_app_setting_get $app psqlpwd)
 
@@ -95,7 +90,7 @@ ynh_setup_source --dest_dir="$final_path"
 ynh_script_progression --message="Configuring nginx web server..." --weight=2
 
 # Create a dedicated nginx config
-ynh_add_nginx_config YNH_PHP_VERSION
+ynh_add_nginx_config
 
 #=================================================
 # CREATE DEDICATED USER
@@ -111,7 +106,8 @@ ynh_system_user_create --username=$app
 ynh_script_progression --message="Configuring php-fpm..." --weight=1
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="$YNH_PHP_VERSION"
+ynh_add_fpm_config --package="$extra_php_dependencies"
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC SETUP
@@ -127,12 +123,9 @@ chown -R "$app": "$final_path"
 #=================================================
 # SETUP APPLICATION
 #=================================================
-ynh_script_progression --message="Configuring the application..." --weight=190
+ynh_script_progression --message="Setuping the application..." --weight=190
 
-email=$(ynh_user_get_info $admin mail)
-password=$(ynh_string_random --length=30)
-
-exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_path --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+exec_as "$app" php$phpversion "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot=$data_path --dbtype='pgsql' --dbname=$db_name --dbuser=$db_name --dbpass=$db_pwd --adminuser=$admin --adminpass=$password --adminemail=$email --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$final_path/config.php"
@@ -140,6 +133,7 @@ ynh_store_file_checksum "$final_path/config.php"
 #=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
+ynh_script_progression --message="Activate ldap support..."
 
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
@@ -154,26 +148,37 @@ ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plu
 # The admin is an ldap user
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/purge_caches.php"
+exec_as "$app" php$phpversion "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
 #=================================================
+ynh_script_progression --message="Adding cron job..."
 
 # Set up poller
-sudo cp "../conf/cron" "/etc/cron.d/$app"
+cp "../conf/cron" "/etc/cron.d/$app"
 ynh_replace_string "__APP__" "$app" "/etc/cron.d/$app"
 ynh_replace_string "__FINAL_PATH__" "$final_path" "/etc/cron.d/$app"
-ynh_replace_string "__YNH_PHP_VERSION__" "$YNH_PHP_VERSION" "/etc/cron.d/$app"
+ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
 
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Securing files and directories..."
+
+# Set permissions to app files
+chown -R "$app": "$data_path"
+chown -R "$app": "$final_path"
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
+ynh_script_progression --message="Configuring SSOwat..."
 
 # Make app public if necessary
-if [ "$is_public" -eq 1 ]
+if [ $is_public -eq 1 ]
 then
 	# unprotected_uris allows SSO credentials to be passed anyway.
 	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
