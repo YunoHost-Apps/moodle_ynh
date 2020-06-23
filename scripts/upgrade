@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos
-source ynh_install_php
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -29,6 +27,7 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 #=================================================
 # CHECK VERSION
 #=================================================
+ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
@@ -76,20 +75,14 @@ fi
 ynh_script_progression --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
-ynh_add_nginx_config YNH_PHP_VERSION
+ynh_add_nginx_config
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..." --weight=30
+ynh_script_progression --message="Upgrading dependencies..."
 
-if [ "$(lsb_release --codename --short)" = "stretch" ]; then
-	ynh_install_app_dependencies $pkg_dependencies
-	ynh_install_php --phpversion="$YNH_PHP_VERSION" --package="$extra_pkg_dependencies"
-else
-	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
-	ynh_install_app_dependencies $pkg_dependencies
-fi
+ynh_install_app_dependencies "$pkg_dependencies"
 
 #=================================================
 # CREATE DEDICATED USER
@@ -105,23 +98,23 @@ ynh_system_user_create --username=$app
 ynh_script_progression --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="$YNH_PHP_VERSION"
+ynh_add_fpm_config --package="$extra_php_dependencies"
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# STORE THE CONFIG FILE CHECKSUM
+# UPGRADING THE APPLICATION
 #=================================================
+ynh_script_progression --message="Upgrading the application..."
 
 ynh_backup_if_checksum_is_different --file="$final_path/config.php"
 
-exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/upgrade.php" --non-interactive
+exec_as "$app" php$phpversion "$final_path/admin/cli/upgrade.php" --non-interactive
 
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$final_path/config.php"
 
-#=================================================
-# GENERIC FINALIZATION
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
@@ -131,18 +124,9 @@ chown -R "$app": "$data_path"
 chown -R "$app": "$final_path"
 
 #=================================================
-# ADD CRON JOB
-#=================================================
-
-# Set up poller
-sudo cp "../conf/cron" "/etc/cron.d/$app"
-ynh_replace_string "__APP__" "$app" "/etc/cron.d/$app"
-ynh_replace_string "__FINAL_PATH__" "$final_path" "/etc/cron.d/$app"
-ynh_replace_string "__YNH_PHP_VERSION__" "$YNH_PHP_VERSION" "/etc/cron.d/$app"
-
-#=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
+ynh_script_progression --message="Activate ldap support..."
 
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
@@ -157,7 +141,29 @@ ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plu
 # The admin is an ldap user
 ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as "$app" php$YNH_PHP_VERSION "$final_path/admin/cli/purge_caches.php"
+exec_as "$app" php$phpversion "$final_path/admin/cli/purge_caches.php"
+
+#=================================================
+# ADD CRON JOB
+#=================================================
+ynh_script_progression --message="Adding cron job..."
+
+# Set up poller
+cp "../conf/cron" "/etc/cron.d/$app"
+ynh_replace_string "__APP__" "$app" "/etc/cron.d/$app"
+ynh_replace_string "__FINAL_PATH__" "$final_path" "/etc/cron.d/$app"
+ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Securing files and directories..."
+
+# Set permissions on app files
+chown -R "$app": "$data_path"
+chown -R "$app": "$final_path"
 
 #=================================================
 # SETUP SSOWAT

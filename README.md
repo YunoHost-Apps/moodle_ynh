@@ -3,8 +3,8 @@
 [![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=moodle)
 
-> *This package allow you to install Moodle quickly and simply on a YunoHost server.  
-If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
+> *This package allows you to install Moodle quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
 [Moodle](https://moodle.org) is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments.
@@ -31,7 +31,7 @@ How to configure this app: by an admin panel.
 
 ## YunoHost specific features
 
-#### Multi-users support
+#### Multi-user support
 
 * Are LDAP and HTTP auth supported? **Yes** 
 * Can the app be used by multiple users? **Yes**
@@ -50,10 +50,10 @@ How to configure this app: by an admin panel.
 
 ---
 
-Developers info
+Developer info
 ----------------
 
-Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing).
+Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
 ```
