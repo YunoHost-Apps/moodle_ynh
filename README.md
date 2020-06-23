@@ -7,7 +7,7 @@
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
-Moodle https://moodle.org is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments.
+[Moodle](https://moodle.org) is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments.
 
 Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
@@ -33,16 +33,13 @@ How to configure this app: by an admin panel.
 
 #### Multi-user support
 
-Are LDAP and HTTP auth supported?  *Yes*  
-Can the app be used by multiple users? *Yes*
+* Are LDAP and HTTP auth supported? **Yes** 
+* Can the app be used by multiple users? **Yes**
 
 #### Supported architectures
 
 * x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/moodle%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/)
 * ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/moodle%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/moodle/)
-
-**More info on the documentation page:**  
-https://yunohost.org/packaging_apps
 
 ## Links
 
