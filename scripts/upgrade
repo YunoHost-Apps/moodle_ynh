@@ -16,13 +16,13 @@ ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-admin=$(ynh_app_setting_get --app=$app --key=admin)
-is_public=$(ynh_app_setting_get --app=$app --key=is_public)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-data_path=$(ynh_app_setting_get --app=$app --key=data_path)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+domain=$(ynh_app_setting_get --app="$app" --key=domain)
+path_url=$(ynh_app_setting_get --app="$app" --key=path)
+admin=$(ynh_app_setting_get --app="$app" --key=admin)
+is_public=$(ynh_app_setting_get --app="$app" --key=is_public)
+final_path=$(ynh_app_setting_get --app="$app" --key=final_path)
+data_path=$(ynh_app_setting_get --app="$app" --key=data_path)
+db_name=$(ynh_app_setting_get --app="$app" --key=db_name)
 
 #=================================================
 # CHECK VERSION
@@ -37,7 +37,7 @@ upgrade_type=$(ynh_check_app_version_changed)
 ynh_script_progression --message="Ensuring downward compatibility..."
 
 # If the admin is not defined, We can't upgrade this app
-if [ -z $admin ]; then
+if [ -z "$admin" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle_ynh"
 fi
 
@@ -90,7 +90,7 @@ ynh_install_app_dependencies "$pkg_dependencies"
 ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app
+ynh_system_user_create --username="$app"
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -99,7 +99,7 @@ ynh_script_progression --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -110,7 +110,7 @@ ynh_script_progression --message="Upgrading the application..."
 
 ynh_backup_if_checksum_is_different --file="$final_path/config.php"
 
-exec_as "$app" php$phpversion "$final_path/admin/cli/upgrade.php" --non-interactive
+exec_as "$app" php"$phpversion" "$final_path/admin/cli/upgrade.php" --non-interactive
 
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$final_path/config.php"
@@ -128,20 +128,20 @@ chown -R "$app": "$final_path"
 #=================================================
 ynh_script_progression --message="Activate ldap support..."
 
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='uid' WHERE plugin='auth_ldap' AND name='user_attribute';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='ou=users,dc=yunohost,dc=org' WHERE plugin='auth_ldap' AND name='contexts';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='givenName' WHERE plugin='auth_ldap' AND name='field_map_firstname';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='sn' WHERE plugin='auth_ldap' AND name='field_map_lastname';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='mail' WHERE plugin='auth_ldap' AND name='field_map_email';"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='uid' WHERE plugin='auth_ldap' AND name='user_attribute';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='ou=users,dc=yunohost,dc=org' WHERE plugin='auth_ldap' AND name='contexts';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='givenName' WHERE plugin='auth_ldap' AND name='field_map_firstname';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='sn' WHERE plugin='auth_ldap' AND name='field_map_lastname';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='mail' WHERE plugin='auth_ldap' AND name='field_map_email';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
 
 # The admin is an ldap user
-ynh_psql_execute_as_root --database=$db_name --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
+ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as "$app" php$phpversion "$final_path/admin/cli/purge_caches.php"
+exec_as "$app" php"$phpversion" "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
@@ -171,10 +171,10 @@ chown -R "$app": "$final_path"
 ynh_script_progression --message="Upgrading SSOwat configuration..."
 
 # Make app public if necessary
-if [ $is_public -eq 1 ]
+if [ "$is_public" -eq 1 ]
 then
 	# unprotected_uris allows SSO credentials to be passed anyway
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+	ynh_app_setting_set --app="$app" --key=unprotected_uris --value="/"
 fi
 
 #=================================================
