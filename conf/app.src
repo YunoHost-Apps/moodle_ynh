@@ -1,6 +1,6 @@
-SOURCE_URL=https://download.moodle.org/stable38/moodle-3.8.2.zip
-SOURCE_SUM=19504ee7fefd5797e0336bd993bb7c18b3f00ea02f3a35206e361c2defc4ea9b
-SOURCE_SUM_PRG=sha256sum
+SOURCE_URL=https://download.moodle.org/stable39/moodle-3.9.tgz
+SOURCE_SUM=693a77fdd66ecfa9e1418e01c543d575aa8468b267de0a1dcfb6df369adc5b73223c959e57947cb56fafa94d269fbd36fd652ddf0b84ed8d5397702501a86e01
+SOURCE_SUM_PRG=sha512sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=true
 SOURCE_FILENAME=
