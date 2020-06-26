@@ -27,7 +27,7 @@ How to configure this app: by an admin panel.
 
 ## Documentation
 
- * Official documentation: https://docs.moodle.org/38/en/Main_page
+ * Official documentation: https://docs.moodle.org/39/en/Main_page
 
 ## YunoHost specific features
 
