@@ -1,5 +1,5 @@
-SOURCE_URL=https://download.moodle.org/download.php/stable39/moodle-3.9.2.zip
-SOURCE_SUM=ca66ffbaf9360f2342d46a5ab1e754b1b50b17e1c2ab3d078355b34a7c5985e7
+SOURCE_URL=https://github.com/moodle/moodle/archive/v3.9.2.zip
+SOURCE_SUM=eecb0e1247b9a1de4d3bcd3962946005d8e052a6bf311163cc2d330a9bfe172d
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=true
