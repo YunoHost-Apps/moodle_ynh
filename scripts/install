@@ -87,7 +87,7 @@ ynh_setup_source --dest_dir="$final_path"
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring nginx web server..." --weight=2
+ynh_script_progression --message="Configuring NGINX web server..." --weight=2
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -103,7 +103,7 @@ ynh_system_user_create --username="$app"
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring php-fpm..." --weight=1
+ynh_script_progression --message="Configuring PHP-FPM..." --weight=1
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --package="$extra_php_dependencies"
@@ -133,7 +133,7 @@ ynh_store_file_checksum "$final_path/config.php"
 #=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
-ynh_script_progression --message="Activate ldap support..."
+ynh_script_progression --message="Activate LDAP support..."
 
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
@@ -187,7 +187,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..." --weight=1
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
