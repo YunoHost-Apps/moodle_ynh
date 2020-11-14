@@ -38,7 +38,7 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 
 # If the admin is not defined, We can't upgrade this app
 if [ -z "$admin" ]; then
-	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle_ynh"
+	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall moodle_ynh"
 fi
 
 #=================================================
