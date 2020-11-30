@@ -43,7 +43,7 @@ ynh_remove_app_dependencies
 #=================================================
 # REMOVE APP MAIN DIR
 #=================================================
-ynh_script_progression --message="Removing app main directory..."
+ynh_script_progression --message="Removing Moodle main directory..."
 
 # Remove the app directory securely
 ynh_secure_remove --file="$final_path"
@@ -51,15 +51,15 @@ ynh_secure_remove --file="$final_path"
 #=================================================
 # REMOVE NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Removing nginx web server configuration..."
+ynh_script_progression --message="Removing NGINX web server configuration..."
 
-# Remove the dedicated nginx config
+# Remove the dedicated NGINX config
 ynh_remove_nginx_config
 
 #=================================================
 # REMOVE PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Removing php-fpm configuration..." --weight=20
+ynh_script_progression --message="Removing PHP-FPM configuration..." --weight=20
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
@@ -91,4 +91,4 @@ ynh_system_user_delete --username="$app"
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Removal of $app completed" --last
+ynh_script_progression --message="Removal of Moodle completed" --last

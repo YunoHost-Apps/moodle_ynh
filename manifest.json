@@ -3,10 +3,10 @@
     "id": "moodle",
     "packaging_format": 1,
     "description": {
-        "en": "An online learning platform",
-        "fr": "Une plateforme d'apprentissage en ligne"
+        "en": "Online learning platform",
+        "fr": "Plateforme d'apprentissage en ligne"
     },
-    "version": "3.9.0~ynh1",
+    "version": "3.10.0~ynh1",
     "url": "https://moodle.org/",
     "license": "GPL-3.0-or-later",
     "maintainer": {
@@ -14,7 +14,7 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 3.5"
+        "yunohost": ">= 4.0.0"
     },
     "multi_instance": true,
     "services": [
