@@ -123,7 +123,7 @@ chown -R "$app": "$final_path"
 #=================================================
 # SETUP APPLICATION
 #=================================================
-ynh_script_progression --message="Setuping the application..." --weight=190
+ynh_script_progression --message="Setting up the application..." --weight=190
 
 exec_as "$app" php"$phpversion" "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
