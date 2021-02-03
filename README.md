@@ -11,7 +11,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
-**Shipped version:** 3.10.0
+**Shipped version:** 3.10.1
 
 ## Screenshots
 

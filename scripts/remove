@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -27,7 +27,7 @@ data_path=$(ynh_app_setting_get --app="$app" --key=data_path)
 #=================================================
 # REMOVE THE POSTGRESQL DATABASE
 #=================================================
-ynh_script_progression --message="Removing the PostgreSQL database..."
+ynh_script_progression --message="Removing the PostgreSQL database..." --weight=1
 
 # Remove a database if it exists, along with the associated user
 ynh_psql_remove_db --db_user="$db_user" --db_name="$db_name"
@@ -35,7 +35,7 @@ ynh_psql_remove_db --db_user="$db_user" --db_name="$db_name"
 #=================================================
 # REMOVE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Removing dependencies..."
+ynh_script_progression --message="Removing dependencies..." --weight=1
 
 # Remove metapackage and its dependencies
 ynh_remove_app_dependencies
@@ -43,7 +43,7 @@ ynh_remove_app_dependencies
 #=================================================
 # REMOVE APP MAIN DIR
 #=================================================
-ynh_script_progression --message="Removing Moodle main directory..."
+ynh_script_progression --message="Removing Moodle main directory..." --weight=2
 
 # Remove the app directory securely
 ynh_secure_remove --file="$final_path"
@@ -51,7 +51,7 @@ ynh_secure_remove --file="$final_path"
 #=================================================
 # REMOVE NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Removing NGINX web server configuration..."
+ynh_script_progression --message="Removing NGINX web server configuration..." --weight=1
 
 # Remove the dedicated NGINX config
 ynh_remove_nginx_config
@@ -69,7 +69,7 @@ ynh_remove_fpm_config
 #=================================================
 # REMOVE VARIOUS FILES
 #=================================================
-ynh_script_progression --message="Removing various files..."
+ynh_script_progression --message="Removing various files..." --weight=2
 
 # Remove a cron file
 ynh_secure_remove --file="/etc/cron.d/$app"
@@ -82,10 +82,10 @@ ynh_secure_remove --file="$data_path"
 #=================================================
 # REMOVE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Removing the dedicated system user..."
+ynh_script_progression --message="Removing the dedicated system user..." --weight=1
 
 # Delete a system user
-ynh_system_user_delete --username="$app"
+ynh_system_user_delete --username=$app
 
 #=================================================
 # END OF SCRIPT

@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -27,18 +27,24 @@ db_name=$(ynh_app_setting_get --app="$app" --key=db_name)
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # If the admin is not defined, We can't upgrade this app
 if [ -z "$admin" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall moodle_ynh"
+fi
+
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
 #=================================================
@@ -72,7 +78,7 @@ fi
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
+ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -80,22 +86,22 @@ ynh_add_nginx_config
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
-ynh_install_app_dependencies "$pkg_dependencies"
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
+ynh_script_progression --message="Making sure dedicated system user exists..." --weight=4
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username="$app"
+ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading PHP-FPM configuration..."
+ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
@@ -106,11 +112,11 @@ phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
 #=================================================
 # UPGRADING THE APPLICATION
 #=================================================
-ynh_script_progression --message="Upgrading the application..."
+ynh_script_progression --message="Upgrading the application..." --weight=1
 
 ynh_backup_if_checksum_is_different --file="$final_path/config.php"
 
-exec_as "$app" php"$phpversion" "$final_path/admin/cli/upgrade.php" --non-interactive
+exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
 
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$final_path/config.php"
@@ -120,13 +126,13 @@ ynh_store_file_checksum --file="$final_path/config.php"
 #=================================================
 
 # Set permissions on app files
-chown -R "$app": "$data_path"
-chown -R "$app": "$final_path"
+chown -R $app: "$data_path"
+chown -R $app: "$final_path"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
-ynh_script_progression --message="Activate LDAP support..."
+ynh_script_progression --message="Activate LDAP support..." --weight=20
 
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
@@ -141,12 +147,12 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as "$app" php"$phpversion" "$final_path/admin/cli/purge_caches.php"
+exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
 #=================================================
-ynh_script_progression --message="Adding cron job..."
+ynh_script_progression --message="Adding cron job..." --weight=4
 
 # Set up poller
 cp "../conf/cron" "/etc/cron.d/$app"
@@ -159,28 +165,16 @@ ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
-ynh_script_progression --message="Securing files and directories..."
+ynh_script_progression --message="Securing files and directories..." --weight=1
 
 # Set permissions on app files
-chown -R "$app": "$data_path"
-chown -R "$app": "$final_path"
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
-
-# Make app public if necessary
-if [ "$is_public" -eq 1 ]
-then
-	# unprotected_uris allows SSO credentials to be passed anyway
-	ynh_app_setting_set --app="$app" --key=unprotected_uris --value="/"
-fi
+chown -R $app: "$data_path"
+chown -R $app: "$final_path"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
