@@ -16,13 +16,13 @@ ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app="$app" --key=domain)
-path_url=$(ynh_app_setting_get --app="$app" --key=path)
-admin=$(ynh_app_setting_get --app="$app" --key=admin)
-is_public=$(ynh_app_setting_get --app="$app" --key=is_public)
-final_path=$(ynh_app_setting_get --app="$app" --key=final_path)
-data_path=$(ynh_app_setting_get --app="$app" --key=data_path)
-db_name=$(ynh_app_setting_get --app="$app" --key=db_name)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+admin=$(ynh_app_setting_get --app=$app --key=admin)
+is_public=$(ynh_app_setting_get --app=$app --key=is_public)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+data_path=$(ynh_app_setting_get --app=$app --key=data_path)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 
 #=================================================
 # CHECK VERSION
@@ -88,7 +88,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
-ynh_install_app_dependencies $pkg_dependencies
+ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
@@ -105,7 +105,7 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -126,8 +126,8 @@ ynh_store_file_checksum --file="$final_path/config.php"
 #=================================================
 
 # Set permissions on app files
-chown -R $app: "$data_path"
-chown -R $app: "$final_path"
+chown -R $app: $data_path
+chown -R $app: $final_path
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
@@ -168,8 +168,8 @@ ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
 ynh_script_progression --message="Securing files and directories..." --weight=1
 
 # Set permissions on app files
-chown -R $app: "$data_path"
-chown -R $app: "$final_path"
+chown -R $app: $data_path
+chown -R $app: $final_path
 
 #=================================================
 # RELOAD NGINX
