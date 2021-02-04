@@ -156,11 +156,7 @@ exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
 #=================================================
 ynh_script_progression --message="Adding cron job..." --weight=2
 
-# Set up poller
-cp "../conf/cron" "/etc/cron.d/$app"
-ynh_replace_string --match_string="__APP__"        --replace_string="$app"        --target_file="/etc/cron.d/$app"
-ynh_replace_string --match_string="__FINAL_PATH__" --replace_string="$final_path" --target_file="/etc/cron.d/$app"
-ynh_replace_string --match_string="__PHPVERSION__" --replace_string="$phpversion" --target_file="/etc/cron.d/$app"
+ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 
 #=================================================
 # GENERIC FINALIZATION
