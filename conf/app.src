@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/moodle/moodle/archive/v3.10.0.zip
-SOURCE_SUM=c80cfa811acda62363cccdd876bf001e802ceccb1f261846c9e59c6a66f6b125
+SOURCE_URL=https://github.com/moodle/moodle/archive/v3.10.1.zip
+SOURCE_SUM=e61c53ce6e972e18e9ef34ad4406654dacc9b627059f7fb1437d6db0a801c308
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=true
