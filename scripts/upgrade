@@ -16,13 +16,13 @@ ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app="$app" --key=domain)
-path_url=$(ynh_app_setting_get --app="$app" --key=path)
-admin=$(ynh_app_setting_get --app="$app" --key=admin)
-is_public=$(ynh_app_setting_get --app="$app" --key=is_public)
-final_path=$(ynh_app_setting_get --app="$app" --key=final_path)
-data_path=$(ynh_app_setting_get --app="$app" --key=data_path)
-db_name=$(ynh_app_setting_get --app="$app" --key=db_name)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+admin=$(ynh_app_setting_get --app=$app --key=admin)
+is_public=$(ynh_app_setting_get --app=$app --key=is_public)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+data_path=$(ynh_app_setting_get --app=$app --key=data_path)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 
 #=================================================
 # CHECK VERSION
@@ -105,7 +105,7 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -126,8 +126,8 @@ ynh_store_file_checksum --file="$final_path/config.php"
 #=================================================
 
 # Set permissions on app files
-chown -R $app: "$data_path"
-chown -R $app: "$final_path"
+chown -R $app: $data_path
+chown -R $app: $final_path
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
@@ -154,11 +154,7 @@ exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
 #=================================================
 ynh_script_progression --message="Adding cron job..." --weight=4
 
-# Set up poller
-cp "../conf/cron" "/etc/cron.d/$app"
-ynh_replace_string "__APP__" "$app" "/etc/cron.d/$app"
-ynh_replace_string "__FINAL_PATH__" "$final_path" "/etc/cron.d/$app"
-ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
+ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -168,8 +164,8 @@ ynh_replace_string "__PHPVERSION__" "$phpversion" "/etc/cron.d/$app"
 ynh_script_progression --message="Securing files and directories..." --weight=1
 
 # Set permissions on app files
-chown -R $app: "$data_path"
-chown -R $app: "$final_path"
+chown -R $app: $data_path
+chown -R $app: $final_path
 
 #=================================================
 # RELOAD NGINX
