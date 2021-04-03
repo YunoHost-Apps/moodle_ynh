@@ -3,13 +3,13 @@
 [![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
+*[Lire ce readme en français.](./README_fr.md)*
+
 > *This package allows you to install Moodle quickly and simply on a YunoHost server.  
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
-[Moodle](https://moodle.org) is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments.
-
-Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
+[Moodle](https://moodle.org) is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 **Shipped version:** 3.10.3
 
