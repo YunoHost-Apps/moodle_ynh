@@ -36,7 +36,7 @@ ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # If the admin is not defined, We can't upgrade this app
 if [ -z "$admin" ]; then
-	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall moodle_ynh"
+	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
 fi
 
 # Cleaning legacy permissions
@@ -79,7 +79,7 @@ fi
 #=================================================
 ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
