@@ -1,6 +1,6 @@
 # Moodle pour YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
+[![Niveau d'intégration](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
 [![Installer Moodle avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
 *[Read this readme in english.](./README.md)* 
@@ -23,11 +23,11 @@ Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/#/install
 
 ## Configuration
 
-How to configure this app: by an admin panel.
+* Comment configurer cette application : via le panneau d'administration.
 
 ## Documentation
 
- * Documentation officielle : https://docs.moodle.org/39/en/Main_page
+* Documentation officielle : https://docs.moodle.org/39/en/Main_page
 
 ## Caractéristiques spécifiques YunoHost
 
