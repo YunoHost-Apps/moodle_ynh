@@ -18,7 +18,7 @@
 		upgrade=1	from_commit=499ac857a9e80bbf56c93e448086e84e09e97ac6
 		backup_restore=1
 		multi_instance=1
-		change_url=1
+		change_url=0
 ;;; Options
 Email=
 Notification=none
