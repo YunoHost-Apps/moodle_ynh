@@ -6,7 +6,7 @@
 *[Read this readme in english.](./README.md)* 
 
 > *Ce package vous permet d'installer Moodle rapidement et simplement sur un serveur YunoHost.  
-Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/#/install) pour apprendre comment l'installer.*
+Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/install) pour apprendre comment l'installer.*
 
 ## Vue d'ensemble
 [Moodle](https://moodle.org) est une plateforme d'apprentissage conçue pour fournir aux enseignants, aux administrateurs et aux apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés. Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus. 
@@ -27,7 +27,7 @@ Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/#/install
 
 ## Documentation
 
-* Documentation officielle : https://docs.moodle.org/39/en/Main_page
+* Documentation officielle : https://docs.moodle.org/3x/fr/Accueil
 
 ## Caractéristiques spécifiques YunoHost
 
