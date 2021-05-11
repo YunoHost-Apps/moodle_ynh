@@ -6,7 +6,7 @@
         "en": "Online learning platform",
         "fr": "Plateforme d'apprentissage en ligne"
     },
-    "version": "3.10.3~ynh1",
+    "version": "3.10.4~ynh1",
     "url": "https://moodle.org/",
     "license": "GPL-3.0-or-later",
     "maintainer": {

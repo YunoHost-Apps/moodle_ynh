@@ -125,8 +125,11 @@ ynh_store_file_checksum --file="$final_path/config.php"
 #=================================================
 
 # Set permissions on app files
-chown -R $app: $data_path
-chown -R $app: $final_path
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
+chown -R $app:www-data $data_path
 
 #=================================================
 # ACTIVATE LDAP SUPPORT

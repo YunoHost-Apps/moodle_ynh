@@ -11,7 +11,7 @@ Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/install) 
 ## Vue d'ensemble
 [Moodle](https://moodle.org) est une plateforme d'apprentissage conçue pour fournir aux enseignants, aux administrateurs et aux apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés. Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus. 
 
-**Version incluse :** 3.10.3
+**Version incluse :** 3.10.4
 
 ## Captures d'écran
 
