@@ -121,17 +121,6 @@ exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interact
 ynh_store_file_checksum --file="$final_path/config.php"
 
 #=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions on app files
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-
-chown -R $app:www-data $data_path
-
-#=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
 ynh_script_progression --message="Activate LDAP support..." --weight=20
