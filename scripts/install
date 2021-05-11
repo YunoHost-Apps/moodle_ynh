@@ -115,12 +115,9 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-
+chown -R $app: "$final_path"
 mkdir -p $data_path
-chown -R $app:www-data $data_path
+chown -R $app: $data_path
 
 #=================================================
 # SETUP APPLICATION
