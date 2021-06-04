@@ -76,6 +76,14 @@ ynh_psql_setup_db --db_user=$db_user --db_name=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=psqlpwd)
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..." --weight=2
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=6
@@ -91,14 +99,6 @@ ynh_script_progression --message="Configuring NGINX web server..." --weight=2
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..." --weight=2
-
-# Create a system user
-ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -124,7 +124,7 @@ chown -R $app: $data_path
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=190
 
-exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$final_path/config.php"
@@ -147,7 +147,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
+ynh_exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB

@@ -19,19 +19,6 @@ extra_php_dependencies="php${YNH_PHP_VERSION}-common php${YNH_PHP_VERSION}-mbstr
 # EXPERIMENTAL HELPERS
 #=================================================
 
-# Execute a command as another user
-# usage: exec_as USER COMMAND [ARG ...]
-exec_as() {
-  local USER=$1
-  shift 1
-
-  if [[ $USER = $(whoami) ]]; then
-    eval "$@"
-  else
-    sudo -u "$USER" "$@"
-  fi
-}
-
 #=================================================
 # FUTURE OFFICIAL HELPERS
 #=================================================
