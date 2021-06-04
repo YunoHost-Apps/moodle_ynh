@@ -92,6 +92,10 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$final_path"
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -115,9 +119,8 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-chown -R $app: "$final_path"
 mkdir -p $data_path
-chown -R $app: $data_path
+chown -R $app:www-data "$data_path"
 
 #=================================================
 # SETUP APPLICATION
@@ -155,17 +158,6 @@ ynh_exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
 ynh_script_progression --message="Adding cron job..." --weight=2
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..." --weight=1
-
-# Set permissions to app files
-chown -R $app: $data_path
-chown -R $app: $final_path
 
 #=================================================
 # SETUP SSOWAT
