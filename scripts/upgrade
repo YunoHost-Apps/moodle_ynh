@@ -78,8 +78,6 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=6
 
-	#ynh_secure_remove --file="$final_path"
-	
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/admin/cli/upgrade.php"
 fi
@@ -111,20 +109,6 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-
-#=================================================
-# SPECIFIC UPGRADE
-#=================================================
-# UPGRADING THE APPLICATION
-#=================================================
-# ynh_script_progression --message="Upgrading the application..." --weight=1
-
-# ynh_backup_if_checksum_is_different --file="$final_path/config.php"
-
-# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
-
-# # Recalculate and store the checksum of the file for the next upgrade.
-# ynh_store_file_checksum --file="$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
