@@ -3,31 +3,29 @@
 [![Niveau d'intégration](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
 [![Installer Moodle avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
-*[Read this readme in english.](./README.md)* 
+*[Read this readme in english.](./README.md)*
+*[Lire ce readme en français.](./README_fr.md)*
 
-> *Ce package vous permet d'installer Moodle rapidement et simplement sur un serveur YunoHost.  
-Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/install) pour apprendre comment l'installer.*
+> *Ce package vous permet d'installer Moodle rapidement et simplement sur un serveur YunoHost.
+Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
 
 ## Vue d'ensemble
-[Moodle](https://moodle.org) est une plateforme d'apprentissage conçue pour fournir aux enseignants, aux administrateurs et aux apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés. Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus. 
 
-**Version incluse :** 3.10.4
+Plateforme d'apprentissage en ligne
+
+**Version incluse :** 3.11.0~ynh1
+
+**Démo :** https://sandbox.moodledemo.net/
 
 ## Captures d'écran
 
-![](https://upload.wikimedia.org/wikipedia/commons/3/36/Moodle_2.0_on_Firefox_4.0.png)
+![](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
-## Démo
-
-* [Démo officielle](https://sandbox.moodledemo.net/)
+## Avertissements / informations importantes
 
 ## Configuration
 
 * Comment configurer cette application : via le panneau d'administration.
-
-## Documentation
-
-* Documentation officielle : https://docs.moodle.org/3x/fr/Accueil
 
 ## Caractéristiques spécifiques YunoHost
 
@@ -36,19 +34,13 @@ Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/install) 
 * L'authentification LDAP et HTTP est-elle prise en charge ? **Oui**
 * L'application peut-elle être utilisée par plusieurs utilisateurs ? **Oui**
 
-#### Architectures supportées
+## Documentations et ressources
 
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/moodle.svg)](https://ci-apps-arm.yunohost.org/ci/apps/moodle/)
-
-## Liens
-
- * Signaler un bug :https://github.com/YunoHost-Apps/moodle_ynh/issues
- * Site de l'application : https://moodle.org/
- * Dépôt de l'application principale : http://git.moodle.org/ - https://github.com/moodle/moodle 
- * Site web YunoHost : https://yunohost.org/
-
----
+* Site officiel de l'app : https://moodle.org/
+* Documentation officielle de l'admin : https://docs.moodle.org/311/en/Main_page
+* Dépôt de code officiel de l'app : https://github.com/moodle/moodle
+* Documentation YunoHost pour cette app : https://yunohost.org/app_moodle
+* Signaler un bug : https://github.com/YunoHost-Apps/moodle_ynh/issues
 
 ## Informations pour les développeurs
 
@@ -60,3 +52,5 @@ sudo yunohost app install https://github.com/YunoHost-Apps/moodle_ynh/tree/testi
 ou
 sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
 ```
+
+**Plus d'infos sur le packaging d'applications :** https://yunohost.org/packaging_apps
