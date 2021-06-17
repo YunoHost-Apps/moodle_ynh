@@ -120,7 +120,7 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 #=================================================
 
 mkdir -p $data_path
-chown -R $app:www-data "$data_path"
+chown -R $app:www-data $data_path
 
 #=================================================
 # SETUP APPLICATION

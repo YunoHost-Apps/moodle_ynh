@@ -137,15 +137,7 @@ ynh_script_progression --message="Adding cron job..." --weight=4
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..." --weight=1
-
-# Set permissions on app files
-chown -R $app:www-data $data_path
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
