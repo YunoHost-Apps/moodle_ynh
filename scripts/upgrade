@@ -61,6 +61,14 @@ ynh_clean_setup () {
 ynh_abort_if_errors
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Making sure dedicated system user exists..." --weight=4
+
+# Create a dedicated user (if not existing)
+ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -70,9 +78,28 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=6
 
+# Create a temporary directory
+  tmpdir="$(mktemp -d)"
+
+    # Backup the config file in the temp dir
+  	cp -a "$final_path/config.php" "$tmpdir/config.php"
+
+	# Remove the app directory securely
+	ynh_secure_remove --file="$final_path"
+
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
+
+	# Copy the admin saved settings from tmp directory to final path  
+  	cp -a "$tmpdir/config.php" "$final_path/config.php" 
+
+  	# Remove the tmp directory securely
+  	ynh_secure_remove --file="$tmpdir"
 fi
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -90,14 +117,6 @@ ynh_script_progression --message="Upgrading dependencies..." --weight=1
 ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=4
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app
-
-#=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
 ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
@@ -107,26 +126,16 @@ ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
-# SPECIFIC UPGRADE
-#=================================================
 # UPGRADING THE APPLICATION
 #=================================================
-ynh_script_progression --message="Upgrading the application..." --weight=1
+# ynh_script_progression --message="Upgrading the application..." --weight=1
 
-ynh_backup_if_checksum_is_different --file="$final_path/config.php"
+# ynh_backup_if_checksum_is_different --file="$final_path/config.php"
 
-exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
+# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
 
-# Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum --file="$final_path/config.php"
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions on app files
-chown -R $app: $data_path
-chown -R $app: $final_path
+# # Recalculate and store the checksum of the file for the next upgrade.
+# ynh_store_file_checksum --file="$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
@@ -146,7 +155,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
+ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
@@ -155,16 +164,7 @@ ynh_script_progression --message="Adding cron job..." --weight=4
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..." --weight=1
-
-# Set permissions on app files
-chown -R $app: $data_path
-chown -R $app: $final_path
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX

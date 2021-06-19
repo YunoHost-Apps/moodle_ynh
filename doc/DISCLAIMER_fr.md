@@ -1,0 +1,1 @@
+- Cette app est intégrée avec le LDAP / SSO de Yunohost
