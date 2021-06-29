@@ -163,6 +163,8 @@ ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
 ynh_script_progression --message="Adding cron job..." --weight=4
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
+chown root: "/etc/cron.d/$app"
+chmod 644 "/etc/cron.d/$app"
 
 chown -R $app:www-data "$final_path"
 
@@ -177,4 +179,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of Moodle completed" --last
+ynh_script_progression --message="Upgrade of $app completed" --last
