@@ -36,8 +36,6 @@ ynh_script_progression --message="Validating installation parameters..." --weigh
 
 final_path=/var/www/$app
 test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
-data_path=/home/yunohost.app/$app
-test ! -e "$data_path" || ynh_die --message="This path already contains a folder"
 
 # Register (book) web path
 ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
@@ -50,7 +48,6 @@ ynh_script_progression --message="Storing installation settings..." --weight=1
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
-ynh_app_setting_set --app=$app --key=data_path --value=$data_path
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -114,13 +111,18 @@ ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
-# SPECIFIC SETUP
+# CREATE DATA DIRECTORY
 #=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
+ynh_script_progression --message="Creating a data directory..." --weight=1
+
+data_path=/home/yunohost.app/$app
+ynh_app_setting_set --app=$app --key=data_path --value=$data_path
 
 mkdir -p $data_path
-chown -R $app:www-data $data_path
+
+chmod 750 "$data_path"
+chmod -R o-rwx "$data_path"
+chown -R $app:www-data "$data_path"
 
 #=================================================
 # SETUP APPLICATION
@@ -158,6 +160,8 @@ ynh_exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
 ynh_script_progression --message="Adding cron job..." --weight=2
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
+chown root: "/etc/cron.d/$app"
+chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # SETUP SSOWAT
@@ -181,4 +185,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of Moodle completed" --last
+ynh_script_progression --message="Installation of $app completed" --last
