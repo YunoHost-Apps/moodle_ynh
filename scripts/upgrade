@@ -132,7 +132,7 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 # ynh_backup_if_checksum_is_different --file="$final_path/config.php"
 
-# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
+# php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
 
 # # Recalculate and store the checksum of the file for the next upgrade.
 # ynh_store_file_checksum --file="$final_path/config.php"
@@ -155,7 +155,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
+php${phpversion} "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
