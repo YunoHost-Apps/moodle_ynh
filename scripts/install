@@ -152,7 +152,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
+php$phpversion "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
