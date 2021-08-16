@@ -125,6 +125,16 @@ chmod -R o-rwx "$data_path"
 chown -R $app:www-data "$data_path"
 
 #=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a configuration file..." --time --weight=1
+
+ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
+
+chmod 400 "$final_path/config.php"
+chown $app:$app "$final_path/config.php"
+
+#=================================================
 # SETUP APPLICATION
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=190
