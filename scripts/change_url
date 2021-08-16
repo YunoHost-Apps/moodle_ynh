@@ -68,15 +68,6 @@ then
 fi
 
 #=================================================
-# STANDARD MODIFICATIONS
-#=================================================
-# STOP SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Stopping a systemd service..." --time --weight=1
-
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
-
-#=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
 ynh_script_progression --message="Updating NGINX web server configuration..." --time --weight=1
@@ -106,26 +97,14 @@ then
 fi
 
 #=================================================
-# SPECIFIC MODIFICATIONS
+# ADD A CONFIGURATION
 #=================================================
-# ...
-#=================================================
+ynh_script_progression --message="Adding a configuration file..." --time --weight=1
 
-#=================================================
-# GENERIC FINALISATION
-#=================================================
-# START SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Starting a systemd service..." --time --weight=1
+ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
-
-#=================================================
-# RELOAD NGINX
-#=================================================
-ynh_script_progression --message="Reloading NGINX web server..." --time --weight=1
-
-ynh_systemd_action --service_name=nginx --action=reload
+chmod 400 "$final_path/config.php"
+chown $app:$app "$final_path/config.php"
 
 #=================================================
 # END OF SCRIPT
