@@ -45,11 +45,31 @@
 				"name": "admin",
 				"type": "user",
 				"example": "johndoe"
-			},            
+			},
+            {
+                "name": "site_name",
+                "type": "string",
+                "ask": {
+                    "en": "Choose a name for the site you want to create",
+                    "fr": "Choisissez un nom pour le site que vous voulez créer"
+                },
+                "default": "moodle",
+                "example": "moodle"
+            },           
             {
                 "name": "is_public",
                 "type": "boolean",
                 "default": true
+            },
+                        {
+                "name": "language",
+                "type": "string",
+                "ask": {
+                    "en": "Choose the application language",
+                    "fr": "Choisissez la langue de l'application"
+                },
+                "choices": ["en", "fr"],
+                "default": "fr"
             }
         ]
     }

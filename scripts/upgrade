@@ -22,12 +22,29 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+language=$(ynh_app_setting_get --app=$app --key=language)
+site_name=$(ynh_app_setting_get --app=$app --key=site_name)
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # CHECK VERSION
 #=================================================
 
 upgrade_type=$(ynh_check_app_version_changed)
+
+#=================================================
+# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+#=================================================
+ynh_script_progression --message="Backing up Moodle before upgrading (may take a while)..." --weight=10
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+ynh_clean_setup () {
+	# restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -39,26 +56,24 @@ if [ -z "$admin" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
 fi
 
+# If the language is not defined
+if [ -z "$language" ]; then
+	language="fr"
+	ynh_app_setting_set --app=$app --key=language --value=$language
+fi
+
+# If the site_name is not defined
+if [ -z "$site_name" ]; then
+	site_name="YunoHost"
+	ynh_app_setting_set --app=$app --key=site_name --value=$site_name
+fi
+
 # Cleaning legacy permissions
 if ynh_legacy_permissions_exists; then
 	ynh_legacy_permissions_delete_all
 
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up Moodle before upgrading (may take a while)..." --weight=30
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	# restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
 
 #=================================================
 # CREATE DEDICATED USER
@@ -74,32 +89,41 @@ ynh_system_user_create --username=$app --home_dir="$final_path"
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
+# if [ "$upgrade_type" == "UPGRADE_APP" ]
+# then
+# 	ynh_script_progression --message="Upgrading source files..." --weight=6
+
+# # Create a temporary directory
+#   tmpdir="$(mktemp -d)"
+
+#     # Backup the config file in the temp dir
+#   	cp -a "$final_path/config.php" "$tmpdir/config.php"
+
+# 	# Remove the app directory securely
+# 	ynh_secure_remove --file="$final_path"
+
+# 	# Download, check integrity, uncompress and patch the source from app.src
+# 	ynh_setup_source --dest_dir="$final_path"
+
+# 	# Copy the admin saved settings from tmp directory to final path  
+#   	cp -a "$tmpdir/config.php" "$final_path/config.php" 
+
+#   	# Remove the tmp directory securely
+#   	ynh_secure_remove --file="$tmpdir"
+# fi
+
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=6
 
-# Create a temporary directory
-  tmpdir="$(mktemp -d)"
-
-    # Backup the config file in the temp dir
-  	cp -a "$final_path/config.php" "$tmpdir/config.php"
-
 	# Remove the app directory securely
-	ynh_secure_remove --file="$final_path"
+	#ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
-
-	# Copy the admin saved settings from tmp directory to final path  
-  	cp -a "$tmpdir/config.php" "$final_path/config.php" 
-
-  	# Remove the tmp directory securely
-  	ynh_secure_remove --file="$tmpdir"
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config.php"
+	php${phpversion} $final_path/admin/cli/upgrade.php
 fi
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
@@ -126,18 +150,6 @@ ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
-# UPGRADING THE APPLICATION
-#=================================================
-# ynh_script_progression --message="Upgrading the application..." --weight=1
-
-# ynh_backup_if_checksum_is_different --file="$final_path/config.php"
-
-# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
-
-# # Recalculate and store the checksum of the file for the next upgrade.
-# ynh_store_file_checksum --file="$final_path/config.php"
-
-#=================================================
 # ACTIVATE LDAP SUPPORT
 #=================================================
 ynh_script_progression --message="Activate LDAP support..." --weight=20
@@ -155,7 +167,11 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
+php${phpversion} "$final_path/admin/cli/purge_caches.php"
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # ADD CRON JOB
@@ -165,8 +181,6 @@ ynh_script_progression --message="Adding cron job..." --weight=4
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
-
-chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
