@@ -103,7 +103,7 @@ fi
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-
+sed -i "$CFG->wwwroot = *" "$CFG->wwwroot = "https://$domain/$path";" "$final_path/config.php"
 
 #=================================================
 # END OF SCRIPT
