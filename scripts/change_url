@@ -99,13 +99,20 @@ then
 fi
 
 #=================================================
-# ADD A CONFIGURATION
+# UPGRADE A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 domain=$new_domain
 path_url=$new_path
 ynh_replace_string --match_string="wwwroot = '.*';" --replace_string="wwwroot = 'https://${domain}${path_url%/}';" --target_file="$final_path/config.php"
+
+#=================================================
+# RELOAD NGINX
+#=================================================
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
+
+ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
