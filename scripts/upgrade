@@ -115,15 +115,15 @@ ynh_system_user_create --username=$app --home_dir="$final_path"
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=6
-	ynh_exec_as $app php${phpversion} $final_path/admin/cli/maintenance.php --enable
+	php${phpversion} $final_path/admin/cli/maintenance.php --enable
 
 	# Remove the app directory securely
 	#ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
-	ynh_exec_as $app php${phpversion} $final_path/admin/cli/upgrade.php
-	ynh_exec_as $app php${phpversion} $final_path/admin/cli/maintenance.php --disable
+	php${phpversion} $final_path/admin/cli/upgrade.php
+	php${phpversion} $final_path/admin/cli/maintenance.php --disable
 fi
 
 chmod 750 "$final_path"
@@ -172,7 +172,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
+php${phpversion} "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
