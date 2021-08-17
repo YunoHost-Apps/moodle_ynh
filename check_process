@@ -3,6 +3,8 @@
 		domain="domain.tld"
 		path="/path"
 		admin="john"
+		language="fr"
+		site_name="Moodle"
 		is_public=1
 	; Checks
 		pkg_linter=1
