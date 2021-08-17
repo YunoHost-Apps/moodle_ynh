@@ -29,6 +29,11 @@ $CFG->directorypermissions = 02777;
 
 $CFG->lang = '__LANGUAGE__';
 
+$CFG->xsendfile = 'X-Accel-Redirect';
+$CFG->xsendfilealiases = array(
+    '/dataroot/' => $CFG->dataroot
+);
+
 require_once(__DIR__ . '/lib/setup.php');
 
 // There is no php closing tag in this file,
