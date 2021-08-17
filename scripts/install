@@ -133,8 +133,6 @@ chown -R $app:www-data "$data_path"
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=19
 
-chmod o+x "$final_path/admin/cli/install.php"
-
 ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --lang="$language" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="$site_name" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
