@@ -25,6 +25,7 @@ path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 language=$YNH_APP_ARG_LANGUAGE
+site_name=$YNH_APP_ARG_SITE_NAME
 email=$(ynh_user_get_info --username=$admin --key=mail)
 password=$(ynh_string_random --length=30)
 
@@ -50,6 +51,7 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=language --value=$language
+ynh_app_setting_set --app=$app --key=site_name --value=$site_name
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -127,22 +129,14 @@ chmod -R o-rwx "$data_path"
 chown -R $app:www-data "$data_path"
 
 #=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression --message="Adding a configuration file..." --weight=1
-
-dir="__DIR__"
-ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
-
-#=================================================
 # SETUP APPLICATION
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=19
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --lang="$language" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="YNH" --non-interactive --agree-license
 
-chmod 400 "$final_path/config.php"
-chown $app:$app "$final_path/config.php"
+# Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum "$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT

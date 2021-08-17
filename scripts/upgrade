@@ -46,6 +46,12 @@ if [ -z "$language" ]; then
 	ynh_app_setting_set --app=$app --key=language --value=$language
 fi
 
+# If the site_name is not defined
+if [ -z "$site_name" ]; then
+	site_name="YunoHost"
+	ynh_app_setting_set --app=$app --key=site_name --value=$site_name
+fi
+
 # Cleaning legacy permissions
 if ynh_legacy_permissions_exists; then
 	ynh_legacy_permissions_delete_all
@@ -131,17 +137,6 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-
-# #=================================================
-# # ADD A CONFIGURATION
-# #=================================================
-# ynh_script_progression --message="Adding a configuration file..." --weight=1
-
-# dir="__DIR__"
-# ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
-
-# chmod 400 "$final_path/config.php"
-# chown $app:$app "$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
