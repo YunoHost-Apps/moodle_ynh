@@ -24,6 +24,7 @@ data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 language=$(ynh_app_setting_get --app=$app --key=language)
 site_name=$(ynh_app_setting_get --app=$app --key=site_name)
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # CHECK VERSION
