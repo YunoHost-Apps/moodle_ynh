@@ -1,1 +1,1 @@
-*/15 * * * * __USER__ /usr/bin/php__PHPVERSION__ -f __FINALPATH__/admin/cli/cron.php
+*/15 * * * * __APP__ /usr/bin/php__PHPVERSION__ -f __FINALPATH__/admin/cli/cron.php

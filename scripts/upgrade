@@ -22,6 +22,7 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+language=$(ynh_app_setting_get --app=$app --key=language)
 
 #=================================================
 # CHECK VERSION
@@ -37,6 +38,12 @@ ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 # If the admin is not defined, We can't upgrade this app
 if [ -z "$admin" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
+fi
+
+# If the language is not defined
+if [ -z "$language" ]; then
+	language="fr"
+	ynh_app_setting_set --app=$app --key=language --value=$language
 fi
 
 # Cleaning legacy permissions
@@ -125,17 +132,16 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 ynh_add_fpm_config --package="$extra_php_dependencies"
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
-#=================================================
-# UPGRADING THE APPLICATION
-#=================================================
-# ynh_script_progression --message="Upgrading the application..." --weight=1
+# #=================================================
+# # ADD A CONFIGURATION
+# #=================================================
+# ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-# ynh_backup_if_checksum_is_different --file="$final_path/config.php"
+# dir="__DIR__"
+# ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
-# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/upgrade.php" --non-interactive
-
-# # Recalculate and store the checksum of the file for the next upgrade.
-# ynh_store_file_checksum --file="$final_path/config.php"
+# chmod 400 "$final_path/config.php"
+# chown $app:$app "$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
@@ -166,7 +172,7 @@ ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
 
-chown -R $app:www-data "$final_path"
+#chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
