@@ -129,6 +129,7 @@ chown -R $app:www-data "$data_path"
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --time --weight=1
 
+dir="__DIR__"
 ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
 chmod 400 "$final_path/config.php"
@@ -137,12 +138,12 @@ chown $app:$app "$final_path/config.php"
 #=================================================
 # SETUP APPLICATION
 #=================================================
-ynh_script_progression --message="Setting up the application..." --weight=190
+# ynh_script_progression --message="Setting up the application..." --weight=190
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+# ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
 
-# Calculate and store the config file checksum into the app settings
-ynh_store_file_checksum "$final_path/config.php"
+# # Calculate and store the config file checksum into the app settings
+# ynh_store_file_checksum "$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
