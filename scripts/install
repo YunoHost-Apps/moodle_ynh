@@ -159,6 +159,8 @@ php$phpversion "$final_path/admin/cli/purge_caches.php"
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
+#domain=${domain%/}
+path_url=${path_url%/}
 dir="__DIR__"
 ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
