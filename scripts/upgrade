@@ -121,12 +121,7 @@ then
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config.php"
-
-	chmod 750 "$final_path"
-	chmod -R o-rwx "$final_path"
-	chown -R $app:www-data "$final_path"
-
-	ynh_exec_as $app php${phpversion} $final_path/admin/cli/upgrade.php
+	php${phpversion} $final_path/admin/cli/upgrade.php
 fi
 
 
@@ -172,7 +167,11 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/purge_caches.php"
+php${phpversion} "$final_path/admin/cli/purge_caches.php"
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # ADD CRON JOB
@@ -182,8 +181,6 @@ ynh_script_progression --message="Adding cron job..." --weight=4
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
-
-#chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
