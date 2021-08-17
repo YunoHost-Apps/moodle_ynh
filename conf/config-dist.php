@@ -27,9 +27,9 @@ $CFG->admin = 'admin';
 
 $CFG->directorypermissions = 02777;
 
-$CFG->lang = '__LANGUAGE__'; // for example 'cs'
+$CFG->lang = '__LANGUAGE__';
 
-require_once(__DIR__ . '/lib/setup.php'); // Do not edit
+require_once(__DIR__ . '/lib/setup.php');
 
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!
