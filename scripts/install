@@ -154,6 +154,16 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET
 
 php$phpversion "$final_path/admin/cli/purge_caches.php"
 
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a configuration file..." --weight=1
+
+ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
+
+chmod 600 "$final_path/config.php"
+chown $app:$app "$final_path/config.php"
+
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
