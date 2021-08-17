@@ -134,15 +134,15 @@ ynh_script_progression --message="Adding a configuration file..." --weight=1
 dir="__DIR__"
 ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
-chmod 400 "$final_path/config.php"
-chown $app:$app "$final_path/config.php"
-
 #=================================================
 # SETUP APPLICATION
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=19
 
 ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="YunoHost" --shortname="YNH" --non-interactive --agree-license
+
+chmod 400 "$final_path/config.php"
+chown $app:$app "$final_path/config.php"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
