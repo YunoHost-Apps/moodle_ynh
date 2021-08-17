@@ -104,8 +104,8 @@ fi
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 domain=$new_domain
-path=$new_path
-ynh_replace_string --match_string="\$CFG->wwwroot = '.*'" --replace_string="\$CFG->wwwroot = 'https://${domain}${path}';" --target_file="$final_path/config.php"
+path_url=$new_path
+ynh_replace_string --match_string="\$CFG->wwwroot = '.*'" --replace_string="\$CFG->wwwroot = 'https://${domain}${path_url%/}';" --target_file="$final_path/config.php"
 
 #=================================================
 # END OF SCRIPT

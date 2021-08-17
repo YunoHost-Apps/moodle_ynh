@@ -133,7 +133,7 @@ chown -R $app:www-data "$data_path"
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=19
 
-ynh_exec_as $app php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://$domain${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --lang="$language" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="$site_name" --non-interactive --agree-license
+php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://${domain}${path_url%/}" --dataroot="$data_path" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --lang="$language" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="$site_name" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$final_path/config.php"
@@ -156,7 +156,7 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an ldap user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-ynh_exec_as $app php$phpversion "$final_path/admin/cli/purge_caches.php"
+php$phpversion "$final_path/admin/cli/purge_caches.php"
 
 #=================================================
 # ADD CRON JOB
