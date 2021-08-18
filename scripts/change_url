@@ -28,13 +28,6 @@ ynh_script_progression --message="Loading installation settings..." --weight=1
 
 # Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-data_path=$(ynh_app_setting_get --app=$app --key=data_path)
-language=$(ynh_app_setting_get --app=$app --key=language)
-
-# Add settings here as needed by your application
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$db_name
-db_pwd=$(ynh_app_setting_get --app=$app --key=db_pwd)
 
 #=================================================
 # BACKUP BEFORE CHANGE URL THEN ACTIVE TRAP
@@ -105,7 +98,8 @@ ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 domain=$new_domain
 path_url=$new_path
-ynh_replace_string --match_string="wwwroot = '.*';" --replace_string="wwwroot = 'https://${domain}${path_url%/}';" --target_file="$final_path/config.php"
+#ynh_replace_string --match_string="wwwroot = \'https://.*\';" --replace_string="wwwroot = \'https://${domain}${path_url%/}\';" --target_file="$final_path/config.php"
+sed "s~https\?://\([^/]\+\)\(.*\)\(/.*\)~https://\${domain}\${path_url%\/\2~" $final_path/config.php
 
 #=================================================
 # RELOAD NGINX
