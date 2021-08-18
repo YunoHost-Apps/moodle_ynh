@@ -107,7 +107,7 @@ path_url=${new_path%/}
 # chmod 750 "$final_path"
 # chmod -R o-rwx "$final_path"
 # chown -R $app:www-data "$final_path"
-
+dir='__DIR__'
 ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
 
 chmod 400 "$final_path/config.php"
