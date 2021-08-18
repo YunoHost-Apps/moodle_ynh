@@ -96,9 +96,14 @@ fi
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-#domain=${new_domain%/}
-#path_url=${new_path%/}
-ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot = 'https://' . '$new_domain' . '${new_path%/}';" --target_file="$final_path/config.php"
+domain=${new_domain%/}
+path_url=${new_path%/}
+#ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot = 'https://' . '$new_domain' . '${new_path%/}';" --target_file="$final_path/config.php"
+php${phpversion} "$final_path/admin/cli/install.php" --wwwroot="https://${domain}${path_url%/}" --non-interactive --agree-license
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
