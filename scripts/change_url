@@ -27,11 +27,6 @@ app=$YNH_APP_INSTANCE_NAME
 ynh_script_progression --message="Loading installation settings..." --weight=1
 
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-data_path=$(ynh_app_setting_get --app=$app --key=data_path)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$db_name
-db_pwd=$(ynh_app_setting_get --app=$app --key=psqlpwd)
 
 #=================================================
 # BACKUP BEFORE CHANGE URL THEN ACTIVE TRAP
@@ -100,22 +95,12 @@ fi
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-#domain=${new_domain%/}
-#path=${new_path%/}
-# ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot = 'https://' . '$new_domain' . '${new_path%/}';" --target_file="$final_path/config.php"
+domain=${new_domain%/}
+path="/${new_path%/}"
+#sed "s/wwwroot   = '.*'/wwwroot   = 'https:\/\/new_domain path'/" $final_path/config.php
+sed "s/wwwroot = '.*'/wwwroot = 'https:\/\/$domain$path'/" $final_path/config.php
 
-ynh_replace_string --match_string="\$CFG->wwwroot = \'.*\'" --replace_string="\$CFG->wwwroot = \'https://${new_domain%/}${new_path%/}\'" --target_file="$final_path/config.php"
-
-
-# chmod 750 "$final_path"
-# chmod -R o-rwx "$final_path"
-# chown -R $app:www-data "$final_path"
-
-# dir='__DIR__'
-# ynh_add_config --template="../conf/config-dist.php" --destination="$final_path/config.php"
-
-# chmod 400 "$final_path/config.php"
-# chown $app:$app "$final_path/config.php"
+ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot =  'https://' . '${new_domain%/}' . '${new_path%/}';" --target_file="$final_path/config.php"
 
 #=================================================
 # RELOAD NGINX
