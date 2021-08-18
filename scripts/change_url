@@ -98,7 +98,7 @@ ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 #domain=${new_domain%/}
 #path_url=${new_path%/}
-ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot = 'https://' . '$new_domain' . '${new_path%/}' . '/';" --target_file="$final_path/config.php"
+ynh_replace_string --match_string="\$CFG->wwwroot = .*" --replace_string="\$CFG->wwwroot = 'https://' . '$new_domain' . '${new_path%/}';" --target_file="$final_path/config.php"
 
 #=================================================
 # RELOAD NGINX
