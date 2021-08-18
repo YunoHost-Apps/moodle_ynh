@@ -96,10 +96,9 @@ fi
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-domain=$new_domain
-path_url=$new_path
-#ynh_replace_string --match_string="wwwroot = \'https://.*\';" --replace_string="wwwroot = \'https://${domain}${path_url%/}\';" --target_file="$final_path/config.php"
-sed "s~https\?://\([^/]\+\)\(.*\)\(/.*\)~https://\${domain}\${path_url%\/\2~" $final_path/config.php
+domain=${new_domain%/}
+path_url=${new_path%/}
+ynh_replace_string --match_string="wwwroot = \'https://.*\';" --replace_string="wwwroot = \'https://$domain$path_url\';" --target_file="$final_path/config.php"
 
 #=================================================
 # RELOAD NGINX
