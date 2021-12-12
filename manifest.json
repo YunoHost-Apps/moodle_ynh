@@ -6,7 +6,7 @@
         "en": "Online learning platform",
         "fr": "Plateforme d'apprentissage en ligne"
     },
-    "version": "3.11.2~ynh1",
+    "version": "3.11.4~ynh1",
     "url": "https://moodle.org/",
     "upstream": {
         "license": "GPL-3.0-or-later",
@@ -21,7 +21,7 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 4.2.4"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": true,
     "services": [
@@ -32,8 +32,7 @@
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
-                "example": "example.com"
+                "type": "domain"
             },
             {
                 "name": "path",
@@ -43,9 +42,18 @@
             },
 			{
 				"name": "admin",
-				"type": "user",
-				"example": "johndoe"
-			},            
+				"type": "user"
+			},
+            {
+                "name": "site_name",
+                "type": "string",
+                "ask": {
+                    "en": "Choose a name for the site you want to create",
+                    "fr": "Choisissez un nom pour le site que vous voulez créer"
+                },
+                "default": "moodle",
+                "example": "moodle"
+            },           
             {
                 "name": "is_public",
                 "type": "boolean",
