@@ -1,6 +1,6 @@
-SOURCE_URL=https://github.com/moodle/moodle/archive/v3.11.4.zip
-SOURCE_SUM=9893c7095b86de4a68c48b21a22116d09ee5040bc5582265d843119b5c8683c8
-SOURCE_SUM_PRG=sha256sum
+SOURCE_URL=https://github.com/moodle/moodle/archive/refs/heads/master.zip
+SOURCE_SUM=0646f317a0f6755f77c55671559de288fca9cce2ef87cfec949917c2d645c7514a06fae5e45810792044d9e2d20c179a4da62f507f4c5863e3426ca92e9fa4bc
+SOURCE_SUM_PRG=sha512sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=true
 SOURCE_FILENAME=moodle.zip
