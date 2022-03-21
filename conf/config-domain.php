@@ -21,6 +21,8 @@ $CFG->wwwroot   = 'https://__DOMAIN__';
 $CFG->dataroot  = '__DATA_PATH__';
 $CFG->admin = 'admin';
 
+$CFG->lang = '__LANGUAGE__';
+
 $CFG->directorypermissions = 02777;
 
 require_once(__DIR__ . '/lib/setup.php'); // Do not edit
