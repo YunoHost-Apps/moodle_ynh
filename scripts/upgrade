@@ -111,6 +111,8 @@ then
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config.php"
 	#php${phpversion} $final_path/admin/cli/upgrade.php
+	ynh_setup_source --dest_dir="$final_path/lang" --source_id=fr
+	ynh_setup_source --dest_dir="$final_path/lang" --source_id=de
 fi
 
 #=================================================
