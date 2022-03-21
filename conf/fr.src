@@ -1,4 +1,4 @@
-SOURCE_URL=https://download.moodle.org/download.php/langpack/3.11/fr.zip
+SOURCE_URL=https://download.moodle.org/download.php/direct/langpack/3.11/fr.zip
 SOURCE_SUM=2e025c72766f218a10ef4ad8bdebb234ce995a0538dc4d1f394c0eee194707ff
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=zip
