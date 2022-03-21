@@ -68,7 +68,7 @@
                 },
                 "choices": ["fr", "en"],
                 "default": "fr"
-            },
+            }
         ]
     }
 }
