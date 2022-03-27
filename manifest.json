@@ -66,7 +66,7 @@
                     "en": "Choose the application language",
                     "fr": "Choisissez la langue de l'application"
                 },
-                "choices": ["de", "en", "fr"],
+                "choices": ["en", "fr"],
                 "default": "fr"
             }
         ]
