@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Online learning platform
 
-**Shipped version:** 3.11.5~ynh1
+**Shipped version:** 3.11.6~ynh1
 
 **Demo:** https://sandbox.moodledemo.net/
 

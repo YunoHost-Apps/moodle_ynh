@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Plateforme d'apprentissage en ligne
 
-**Version incluse :** 3.11.5~ynh1
+**Version incluse :** 3.11.6~ynh1
 
 **Démo :** https://sandbox.moodledemo.net/
 

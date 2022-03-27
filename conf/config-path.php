@@ -8,7 +8,7 @@ $CFG->dbtype    = 'pgsql';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'localhost';
 $CFG->dbname    = '__DB_NAME__';
-$CFG->dbuser    = '__DB_NAME__';
+$CFG->dbuser    = '__DB_USER__';
 $CFG->dbpass    = '__DB_PWD__';
 $CFG->prefix    = 'mdl_';
 $CFG->dboptions = array(
@@ -20,6 +20,8 @@ $CFG->dboptions = array(
 $CFG->wwwroot   = 'https://__DOMAIN____PATH__';
 $CFG->dataroot  = '__DATA_PATH__';
 $CFG->admin = 'admin';
+
+$CFG->lang = '__LANGUAGE__';
 
 $CFG->directorypermissions = 02777;
 
