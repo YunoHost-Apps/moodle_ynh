@@ -22,7 +22,6 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 data_path=$(ynh_app_setting_get --app=$app --key=data_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-language=$(ynh_app_setting_get --app=$app --key=language)
 site_name=$(ynh_app_setting_get --app=$app --key=site_name)
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
@@ -77,12 +76,6 @@ if [ -z "$fpm_usage" ]; then
 	ynh_app_setting_set --app=$app --key=fpm_usage --value=$fpm_usage
 fi
 
-# If language doesn't exist, create it
-if [ -z "$language" ]; then
-	language=en
-	ynh_app_setting_set --app=$app --key=language --value=$language
-fi
-
 # Cleaning legacy permissions
 if ynh_legacy_permissions_exists; then
 	ynh_legacy_permissions_delete_all
@@ -111,8 +104,6 @@ then
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config.php"
 	#php${phpversion} $final_path/admin/cli/upgrade.php
-	ynh_setup_source --dest_dir="$final_path/lang" --source_id=fr
-	ynh_setup_source --dest_dir="$final_path/lang" --source_id=de
 fi
 
 #=================================================
