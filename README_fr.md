@@ -28,7 +28,7 @@ Plateforme d'apprentissage en ligne
 ## Documentations et ressources
 
 * Site officiel de l'app : https://moodle.org/
-* Documentation officielle de l'admin : https://docs.moodle.org/311/en/Main_page
+* Documentation officielle de l'admin : https://docs.moodle.org/400/en/Main_page
 * Dépôt de code officiel de l'app : https://github.com/moodle/moodle
 * Documentation YunoHost pour cette app : https://yunohost.org/app_moodle
 * Signaler un bug : https://github.com/YunoHost-Apps/moodle_ynh/issues
