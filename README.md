@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Moodle for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Working status](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -23,7 +23,7 @@ Online learning platform
 
 ## Screenshots
 
-![](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
+![Screenshot of Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
 ## Disclaimers / important information
 
@@ -40,21 +40,22 @@ How to configure this app: by an admin panel.
 
 ## Documentation and resources
 
-* Official app website: https://moodle.org/
-* Official admin documentation: https://docs.moodle.org/400/en/Main_page
-* Upstream app code repository: https://github.com/moodle/moodle
-* YunoHost documentation for this app: https://yunohost.org/app_moodle
-* Report a bug: https://github.com/YunoHost-Apps/moodle_ynh/issues
+* Official app website: <https://moodle.org/>
+* Official admin documentation: <https://docs.moodle.org/400/en/Main_page>
+* Upstream app code repository: <https://github.com/moodle/moodle>
+* YunoHost documentation for this app: <https://yunohost.org/app_moodle>
+* Report a bug: <https://github.com/YunoHost-Apps/moodle_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>
