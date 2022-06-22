@@ -6,7 +6,7 @@
         "en": "Online learning platform",
         "fr": "Plateforme d'apprentissage en ligne"
     },
-    "version": "4.0.1~ynh1",
+    "version": "4.0.1~ynh2",
     "url": "https://moodle.org/",
     "upstream": {
         "license": "GPL-3.0-or-later",
@@ -29,7 +29,7 @@
         "php7.4-fpm"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
                 "type": "domain"
@@ -39,6 +39,11 @@
                 "type": "path",
                 "example": "/moodle",
                 "default": "/moodle"
+            },
+            {
+                "name": "is_public",
+                "type": "boolean",
+                "default": true
             },
 			{
 				"name": "admin",
@@ -53,11 +58,6 @@
                 },
                 "default": "moodle",
                 "example": "moodle"
-            },           
-            {
-                "name": "is_public",
-                "type": "boolean",
-                "default": true
             }
         ]
     }
