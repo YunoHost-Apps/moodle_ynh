@@ -18,7 +18,7 @@ $CFG->dboptions = array(
 );
 
 $CFG->wwwroot   = 'https://__DOMAIN____PATH__';
-$CFG->dataroot  = '__DATA_PATH__';
+$CFG->dataroot  = '__DATADIR__';
 $CFG->admin = 'admin';
 
 $CFG->directorypermissions = 02777;
