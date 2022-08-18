@@ -6,7 +6,7 @@
         "en": "Online learning platform",
         "fr": "Plateforme d'apprentissage en ligne"
     },
-    "version": "4.0.2~ynh1",
+    "version": "4.0.2~ynh2",
     "url": "https://moodle.org/",
     "upstream": {
         "license": "GPL-3.0-or-later",
@@ -21,7 +21,7 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.0.9"
     },
     "multi_instance": true,
     "services": [
