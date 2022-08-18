@@ -22,7 +22,6 @@ Moodle est largement utilisé dans le monde entier par les universités, les éc
 
 **Version incluse :** 4.0.2~ynh2
 
-
 **Démo :** https://sandbox.moodledemo.net/
 
 ## Captures d'écran
