@@ -23,7 +23,6 @@ Moodle is widely used around the world by universities, schools, companies and a
 **Shipped version:** 4.0.2~ynh2
 
 
-
 **Demo:** https://sandbox.moodledemo.net/
 
 ## Screenshots
