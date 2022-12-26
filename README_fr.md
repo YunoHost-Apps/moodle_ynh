@@ -20,7 +20,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus.
 
 
-**Version incluse :** 4.0.4~ynh1
+**Version incluse :** 4.1.0~ynh1
 
 **Démo :** https://sandbox.moodledemo.net/
 
