@@ -5,28 +5,28 @@ It shall NOT be edited by hand.
 
 # Moodle pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
 [![Installer Moodle avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Moodle rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Moodle rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 [Moodle](https://moodle.org) est une plateforme d'apprentissage conçue pour fournir aux éducateurs, administrateurs et apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés.
 
 Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus.
 
 
-**Version incluse :** 4.1.0~ynh1
+**Version incluse :** 4.1.1~ynh1
 
 **Démo :** https://sandbox.moodledemo.net/
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
+![Capture d’écran de Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
 ## Avertissements / informations importantes
 
@@ -34,9 +34,9 @@ Moodle est largement utilisé dans le monde entier par les universités, les éc
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://moodle.org/>
-* Documentation officielle de l'admin : <https://docs.moodle.org/400/en/Main_page>
-* Dépôt de code officiel de l'app : <https://github.com/moodle/moodle>
+* Site officiel de l’app : <https://moodle.org/>
+* Documentation officielle de l’admin : <https://docs.moodle.org/400/en/Main_page>
+* Dépôt de code officiel de l’app : <https://github.com/moodle/moodle>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_moodle>
 * Signaler un bug : <https://github.com/YunoHost-Apps/moodle_ynh/issues>
 
@@ -52,4 +52,4 @@ ou
 sudo yunohost app upgrade moodle -u https://github.com/YunoHost-Apps/moodle_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
