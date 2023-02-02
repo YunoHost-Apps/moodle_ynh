@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Moodle for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Working status](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Working status](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -20,7 +20,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Shipped version:** 4.1.0~ynh1
+**Shipped version:** 4.1.1~ynh1
 
 **Demo:** https://sandbox.moodledemo.net/
 
