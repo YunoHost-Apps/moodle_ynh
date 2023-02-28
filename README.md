@@ -29,19 +29,6 @@ Moodle is widely used around the world by universities, schools, companies and a
 
 ![Screenshot of Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
-## Disclaimers / important information
-
-## Configuration
-
-How to configure this app: by an admin panel.
-
-## YunoHost specific features
-
-#### Multi-user support
-
-* Are LDAP and HTTP auth supported? **Yes** 
-* Can the app be used by multiple users? **Yes**
-
 ## Documentation and resources
 
 * Official app website: <https://moodle.org/>
