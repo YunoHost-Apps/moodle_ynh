@@ -21,7 +21,7 @@
         "email": "anmol@datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 11.0.9"
+        "yunohost": ">= 11.1.11"
     },
     "multi_instance": true,
     "services": [
