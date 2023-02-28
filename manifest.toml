@@ -39,7 +39,6 @@ ram.runtime = "50M"
     default = "visitors"
 
     [install.admin]
-    # this is a generic question - ask strings are automatically handled by Yunohost's core
     type = "user"
 
     [install.site_name]
