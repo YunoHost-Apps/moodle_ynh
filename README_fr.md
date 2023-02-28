@@ -6,6 +6,7 @@ It shall NOT be edited by hand.
 # Moodle pour YunoHost
 
 [![Niveau d’intégration](https://dash.yunohost.org/integration/moodle.svg)](https://dash.yunohost.org/appci/app/moodle) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+
 [![Installer Moodle avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
 *[Read this readme in english.](./README.md)*
