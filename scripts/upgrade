@@ -23,9 +23,6 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
 # If the admin is not defined, We can't upgrade this app
 if [ -z "${admin:-}" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
