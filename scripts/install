@@ -85,6 +85,10 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET
 
 php$phpversion "$install_dir/admin/cli/purge_caches.php"
 
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
+
 #=================================================
 # ADD CRON JOB
 #=================================================
