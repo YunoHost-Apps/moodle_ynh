@@ -10,46 +10,11 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-ynh_script_progression --message="Loading installation settings..." --weight=1
-
-app=$YNH_APP_INSTANCE_NAME
-
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-admin=$(ynh_app_setting_get --app=$app --key=admin)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-datadir=$(ynh_app_setting_get --app=$app --key=datadir)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-site_name=$(ynh_app_setting_get --app=$app --key=site_name)
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-
-fpm_footprint=$(ynh_app_setting_get --app=$app --key=fpm_footprint)
-fpm_free_footprint=$(ynh_app_setting_get --app=$app --key=fpm_free_footprint)
-fpm_usage=$(ynh_app_setting_get --app=$app --key=fpm_usage)
-
-#=================================================
 # CHECK VERSION
 #=================================================
 ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=10
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	ynh_clean_check_starting
-	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -58,57 +23,34 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-# Cleaning legacy permissions
-if ynh_legacy_permissions_exists; then
-	ynh_legacy_permissions_delete_all
-
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
 # If the admin is not defined, We can't upgrade this app
-if [ -z "$admin" ]; then
+if [ -z "${admin:-}" ]; then
 	ynh_die --message="This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
 fi
 
 # If the site_name is not defined
-if [ -z "$site_name" ]; then
+if [ -z "${site_name:-}" ]; then
 	site_name="YunoHost"
 	ynh_app_setting_set --app=$app --key=site_name --value=$site_name
 fi
 
 # If fpm_footprint doesn't exist, create it
-if [ -z "$fpm_footprint" ]; then
+if [ -z "${fpm_footprint:-}" ]; then
     fpm_footprint=low
     ynh_app_setting_set --app=$app --key=fpm_footprint --value=$fpm_footprint
 fi
 
 # If fpm_free_footprint doesn't exist, create it
-if [ -z "$fpm_free_footprint" ]; then
+if [ -z "${fpm_free_footprint:-}" ]; then
     fpm_free_footprint=0
     ynh_app_setting_set --app=$app --key=fpm_free_footprint --value=$fpm_free_footprint
 fi
 
 # If fpm_usage doesn't exist, create it
-if [ -z "$fpm_usage" ]; then
+if [ -z "${fpm_usage:-}" ]; then
     fpm_usage=low
     ynh_app_setting_set --app=$app --key=fpm_usage --value=$fpm_usage
 fi
-
-
-# If datadir doesn't exist, create it
-if [ -z "$datadir" ]; then
-	datadir=$(ynh_app_setting_get --app=$app --key=data_path)
-	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
-	ynh_app_setting_delete --app=$app --key=data_path
-fi
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=4
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -122,31 +64,23 @@ then
 	tmpdir="$(mktemp -d)"
 
 	# Backup the config file in the temp dir
-	cp -a "$final_path/config.php" "$tmpdir/config.php"
+	cp -a "$install_dir/config.php" "$tmpdir/config.php"
 
 	# Remove the app directory securely
-	ynh_secure_remove --file="$final_path"
+	ynh_secure_remove --file="$install_dir"
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$install_dir"
 
 	# Copy the admin saved settings from tmp directory to final path 
-	cp -a "$tmpdir/config.php" "$final_path/config.php" 
+	cp -a "$tmpdir/config.php" "$install_dir/config.php" 
 
 	# Remove the tmp directory securely
 	ynh_secure_remove --file="$tmpdir"
 fi
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Upgrading dependencies..." --weight=1
-
-ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -184,11 +118,11 @@ ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_config_p
 # The admin is an LDAP user
 ynh_psql_execute_as_root --database="$db_name" --sql="UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-php${phpversion} "$final_path/admin/cli/purge_caches.php"
+php${phpversion} "$install_dir/admin/cli/purge_caches.php"
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
 
 #=================================================
 # ADD CRON JOB
@@ -198,15 +132,6 @@ ynh_script_progression --message="Adding cron job..." --weight=4
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# RELOAD NGINX
-#=================================================
-ynh_script_progression --message="Reloading NGINX web server..." --weight=1
-
-ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
