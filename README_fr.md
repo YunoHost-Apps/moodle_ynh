@@ -29,10 +29,6 @@ Moodle est largement utilisé dans le monde entier par les universités, les éc
 
 ![Capture d’écran de Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
-## Avertissements / informations importantes
-
-- Cette app est intégrée avec le LDAP / SSO de Yunohost
-
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://moodle.org/>
