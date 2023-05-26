@@ -60,7 +60,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Setting up the application..." --weight=19
 
-php${phpversion} "$install_dir/admin/cli/install.php" --wwwroot="https://${domain}${path%/}" --dataroot="$data_dir" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="$site_name" --non-interactive --agree-license
+php${phpversion} "$install_dir/admin/cli/install.php" -d max_input_vars=5000 --wwwroot="https://${domain}${path%/}" --dataroot="$data_dir" --dbtype='pgsql' --dbname="$db_name" --dbuser="$db_name" --dbpass="$db_pwd" --adminuser="$admin" --adminpass="$password" --adminemail="$email" --fullname="$site_name" --shortname="$site_name" --non-interactive --agree-license
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum "$install_dir/config.php"
