@@ -5,7 +5,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "4.1.2~ynh1"
+version = "4.2.0~ynh1"
 
 maintainers = ["Anmol Sharma"]
 
@@ -17,7 +17,7 @@ admindoc = "https://docs.moodle.org/400/en/Main_page"
 code = "https://github.com/moodle/moodle"
 
 [integration]
-yunohost = ">= 11.1.15"
+yunohost = ">= 11.1.19"
 architectures = "all"
 multi_instance = true
 ldap = true
@@ -53,8 +53,8 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/moodle/moodle/archive/v4.1.2.zip"
-        sha256 = "395523c8a81203636dfe74e8daaa9f98dc5268576728ef01d7fcc5a1753cc13a"
+        url = "https://github.com/moodle/moodle/archive/v4.2.0.zip"
+        sha256 = "d74c96795d969a403356ef5f313de61effb5a188ca88690be3c7af5f57eb20e8"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -67,7 +67,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "postgresql php7.4-common php7.4-mbstring php7.4-curl php7.4-xmlrpc php7.4-soap php7.4-zip php7.4-gd php7.4-xml php7.4-intl php7.4-pgsql php7.4-ldap"
+    packages = "postgresql php8.0-common php8.0-mbstring php8.0-curl php8.0-xmlrpc php8.0-soap php8.0-zip php8.0-gd php8.0-xml php8.0-intl php8.0-pgsql php8.0-ldap"
 
     [resources.database]
     type = "postgresql"
