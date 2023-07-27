@@ -5,7 +5,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "4.2.0~ynh1"
+version = "4.2.1~ynh1"
 
 maintainers = ["Anmol Sharma"]
 
@@ -17,7 +17,7 @@ admindoc = "https://docs.moodle.org/400/en/Main_page"
 code = "https://github.com/moodle/moodle"
 
 [integration]
-yunohost = ">= 11.1.19"
+yunohost = ">= 11.1.20"
 architectures = "all"
 multi_instance = true
 ldap = true
@@ -53,8 +53,8 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/moodle/moodle/archive/v4.2.0.zip"
-        sha256 = "d74c96795d969a403356ef5f313de61effb5a188ca88690be3c7af5f57eb20e8"
+        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.2.1.tar.gz"
+        sha256 = "b9652bda01051a3bf59d5c5e24997749c3faaa8d1ccad3dd90793a5f68ba6220"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
