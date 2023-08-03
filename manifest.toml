@@ -7,7 +7,7 @@ description.fr = "Plateforme d'apprentissage en ligne"
 
 version = "4.2.1~ynh1"
 
-maintainers = ["Anmol Sharma"]
+maintainers = [""]
 
 [upstream]
 license = "GPL-3.0-or-later"
@@ -17,7 +17,7 @@ admindoc = "https://docs.moodle.org/400/en/Main_page"
 code = "https://github.com/moodle/moodle"
 
 [integration]
-yunohost = ">= 11.1.20"
+yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
 ldap = true
@@ -46,7 +46,6 @@ ram.runtime = "50M"
     ask.fr = "Choisissez un nom pour le site que vous voulez créer"
     type = "string"
     default = "moodle"
-    example = "moodle"
 
 [resources]
 
