@@ -45,7 +45,7 @@ ram.runtime = "50M"
     ask.en = "Choose a name for the site you want to create"
     ask.fr = "Choisissez un nom pour le site que vous voulez créer"
     type = "string"
-    default = "moodle"
+    default = "Moodle"
 
 [resources]
 
@@ -66,7 +66,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "postgresql php8.0-common php8.0-mbstring php8.0-curl php8.0-xmlrpc php8.0-soap php8.0-zip php8.0-gd php8.0-xml php8.0-intl php8.0-pgsql php8.0-ldap"
+    packages = "postgresql, php8.0-common, php8.0-mbstring, php8.0-curl, php8.0-xmlrpc, php8.0-soap, php8.0-zip, php8.0-gd php8.0-xml, php8.0-intl, php8.0-pgsql, php8.0-ldap"
 
     [resources.database]
     type = "postgresql"
