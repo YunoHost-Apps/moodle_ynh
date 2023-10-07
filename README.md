@@ -19,7 +19,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Shipped version:** 4.2.2~ynh1
+**Shipped version:** 4.3.0~ynh1
 
 **Demo:** https://sandbox.moodledemo.net/
 
@@ -32,7 +32,6 @@ Moodle is a learning platform designed to provide educators, administrators and 
 * Official app website: <https://moodle.org/>
 * Official admin documentation: <https://docs.moodle.org/400/en/Main_page>
 * Upstream app code repository: <https://github.com/moodle/moodle>
-* YunoHost documentation for this app: <https://yunohost.org/app_moodle>
 * Report a bug: <https://github.com/YunoHost-Apps/moodle_ynh/issues>
 
 ## Developer info

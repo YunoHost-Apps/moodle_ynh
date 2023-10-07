@@ -19,7 +19,7 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 Moodle est une plateforme d'apprentissage conçue pour fournir aux éducateurs, administrateurs et apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés. Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus.
 
 
-**Version incluse :** 4.2.2~ynh1
+**Version incluse :** 4.3.0~ynh1
 
 **Démo :** https://sandbox.moodledemo.net/
 
@@ -32,7 +32,6 @@ Moodle est une plateforme d'apprentissage conçue pour fournir aux éducateurs, 
 * Site officiel de l’app : <https://moodle.org/>
 * Documentation officielle de l’admin : <https://docs.moodle.org/400/en/Main_page>
 * Dépôt de code officiel de l’app : <https://github.com/moodle/moodle>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_moodle>
 * Signaler un bug : <https://github.com/YunoHost-Apps/moodle_ynh/issues>
 
 ## Informations pour les développeurs
