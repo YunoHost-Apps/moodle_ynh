@@ -32,7 +32,6 @@ Moodle is a learning platform designed to provide educators, administrators and 
 * Official app website: <https://moodle.org/>
 * Official admin documentation: <https://docs.moodle.org/400/en/Main_page>
 * Upstream app code repository: <https://github.com/moodle/moodle>
-* YunoHost documentation for this app: <https://yunohost.org/app_moodle>
 * Report a bug: <https://github.com/YunoHost-Apps/moodle_ynh/issues>
 
 ## Developer info
