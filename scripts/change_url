@@ -30,9 +30,9 @@ dir="__DIR__"
 ynh_backup_if_checksum_is_different --file="$install_dir/config.php"
 
 if [ "$new_path" == "/" ]; then
-	ynh_add_config --template="../conf/config-domain.php" --destination="$install_dir/config.php"
+	ynh_add_config --template="config-domain.php" --destination="$install_dir/config.php"
 else
-	ynh_add_config --template="../conf/config-path.php" --destination="$install_dir/config.php"
+	ynh_add_config --template="config-path.php" --destination="$install_dir/config.php"
 fi
 
 ynh_store_file_checksum --file="$install_dir/config.php"

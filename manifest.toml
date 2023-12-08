@@ -5,7 +5,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "4.3.0~ynh1"
+version = "4.3.1~ynh1"
 
 maintainers = [""]
 
@@ -20,8 +20,11 @@ code = "https://github.com/moodle/moodle"
 yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
+
 ldap = true
+
 sso = true
+
 disk = "50M"
 ram.build = "2000M"
 ram.runtime = "50M"
@@ -52,8 +55,8 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.3.0.tar.gz"
-        sha256 = "fa1a6353bf140e7e0b0d57623b4681386badb19a28f624603c42324a99c5466c"
+        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.3.1.tar.gz"
+        sha256 = "d7cbec3d356d370fa6c593a919074d0dac03beb2d22c6c464f435b0e2aaae206"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -66,7 +69,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "postgresql, php8.2-common, php8.2-mbstring, php8.2-curl, php8.2-xmlrpc, php8.2-soap, php8.2-zip, php8.2-gd php8.2-xml, php8.2-intl, php8.2-pgsql, php8.2-ldap"
+    packages = "postgresql, php8.2-mbstring, php8.2-curl, php8.2-xmlrpc, php8.2-soap, php8.2-zip, php8.2-gd php8.2-xml, php8.2-intl, php8.2-pgsql, php8.2-ldap"
 
     [resources.database]
     type = "postgresql"
