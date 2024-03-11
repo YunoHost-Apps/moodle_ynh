@@ -69,7 +69,7 @@ then
 	ynh_secure_remove --file="$install_dir"
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir"
+	ynh_setup_source --dest_dir="$install_dir" --full_replace=1
 
 	# Copy the admin saved settings from tmp directory to final path 
 	cp -a "$tmpdir/config.php" "$install_dir/config.php" 
