@@ -9,7 +9,7 @@ It shall NOT be edited by hand.
 
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
 > *This package allows you to install Moodle quickly and simply on a YunoHost server.*  
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
@@ -19,7 +19,7 @@ It shall NOT be edited by hand.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Shipped version:** 4.3.3~ynh1
+**Shipped version:** 4.4.0~ynh1
 
 **Demo:** <https://sandbox.moodledemo.net/>
 
