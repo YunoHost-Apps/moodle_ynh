@@ -5,7 +5,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "4.3.3~ynh1"
+version = "4.4.0~ynh1"
 
 maintainers = [""]
 
@@ -55,8 +55,8 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.3.3.tar.gz"
-        sha256 = "9bb9971f035a4538b701185b42b98405cf8d1d0ae043b5a81b9ec54a12c5e869"
+        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.4.0.tar.gz"
+        sha256 = "e9a82d2080e476a4a9b17cb74a9b826530acffacf5b795961674c87dd32786ed"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
