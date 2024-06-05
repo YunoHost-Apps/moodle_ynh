@@ -10,12 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# CHECK VERSION
-#=================================================
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -54,29 +48,10 @@ fi
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Upgrading source files..." --weight=6
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading source files..." --weight=6
-
-	# Create a temporary directory
-	tmpdir="$(mktemp -d)"
-
-	# Backup the config file in the temp dir
-	cp -a "$install_dir/config.php" "$tmpdir/config.php"
-
-	# Remove the app directory securely
-	ynh_secure_remove --file="$install_dir"
-
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir"
-
-	# Copy the admin saved settings from tmp directory to final path 
-	cp -a "$tmpdir/config.php" "$install_dir/config.php" 
-
-	# Remove the tmp directory securely
-	ynh_secure_remove --file="$tmpdir"
-fi
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="config.php"
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
