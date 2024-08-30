@@ -19,7 +19,7 @@ Il NE doit PAS être modifié à la main.
 Moodle est une plateforme d'apprentissage conçue pour fournir aux éducateurs, administrateurs et apprenants un système unique robuste, sécurisé et intégré pour créer des environnements d'apprentissage personnalisés. Moodle est largement utilisé dans le monde entier par les universités, les écoles, les entreprises et toutes sortes d'organisations et d'individus.
 
 
-**Version incluse :** 4.4.2~ynh1
+**Version incluse :** 4.4.3~ynh1
 
 **Démo :** <https://sandbox.moodledemo.net/>
 
