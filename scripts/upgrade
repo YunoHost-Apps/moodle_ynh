@@ -10,46 +10,19 @@ ynh_app_setting_set_default --key=php_upload_max_filesize --value=1G
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
 
-# If the admin is not defined, We can't upgrade this app
 if [ -z "${admin:-}" ]; then
 	ynh_die "This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
 fi
 
-# If the site_name is not defined
-# FIXMEhelpers2.1: maybe replace with: ynh_app_setting_set_default --key=site_name --value="YunoHost"
-if [ -z "${site_name:-}" ]; then
-	site_name="YunoHost"
-	ynh_app_setting_set --key=site_name --value=$site_name
-fi
-
-# If fpm_footprint doesn't exist, create it
-if [ -z "${fpm_footprint:-}" ]; then
-    fpm_footprint=low
-#REMOVEME? Everything about fpm_footprint is removed in helpers2.1... |     ynh_app_setting_set --key=fpm_footprint --value=$fpm_footprint
-fi
-
-# If fpm_free_footprint doesn't exist, create it
-if [ -z "${fpm_free_footprint:-}" ]; then
-    fpm_free_footprint=0
-#REMOVEME? Everything about fpm_free_footprint is removed in helpers2.1... |     ynh_app_setting_set --key=fpm_free_footprint --value=$fpm_free_footprint
-fi
-
-# If fpm_usage doesn't exist, create it
-if [ -z "${fpm_usage:-}" ]; then
-    fpm_usage=low
-#REMOVEME? Everything about fpm_usage is removed in helpers2.1... |     ynh_app_setting_set --key=fpm_usage --value=$fpm_usage
-fi
+ynh_app_setting_set_default --key=site_name --value="YunoHost"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="config.php"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
@@ -60,8 +33,6 @@ ynh_config_add_phpfpm
 ynh_config_add_nginx
 
 ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown root: "/etc/cron.d/$app"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # ACTIVATE LDAP SUPPORT
@@ -78,14 +49,10 @@ ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='mail' WHERE 
 ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
 ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
 
-# The admin is an LDAP user
 ynh_psql_db_shell  <<< "UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
 php${php_version} "$install_dir/admin/cli/purge_caches.php"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 #=================================================
 # END OF SCRIPT
 #=================================================
