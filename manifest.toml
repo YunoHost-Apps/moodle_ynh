@@ -5,7 +5,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "4.4.3~ynh2"
+version = "4.4.3~ynh3"
 
 maintainers = []
 
@@ -17,7 +17,7 @@ admindoc = "https://docs.moodle.org/400/en/Main_page"
 code = "https://github.com/moodle/moodle"
 
 [integration]
-yunohost = ">= 11.2.29"
+yunohost = ">= 11.2.30"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true

@@ -19,7 +19,7 @@ No se debe editar a mano.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Versión actual:** 4.4.3~ynh2
+**Versión actual:** 4.4.3~ynh3
 
 **Demo:** <https://sandbox.moodledemo.net/>
 
@@ -37,7 +37,7 @@ Moodle is a learning platform designed to provide educators, administrators and 
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/moodle_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
