@@ -5,7 +5,9 @@ It shall NOT be edited by hand.
 
 # Moodle for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Working status](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Integration level](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Working status](https://apps.yunohost.org/badge/state/moodle)
+![Maintenance status](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Install Moodle with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 

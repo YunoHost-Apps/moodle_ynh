@@ -5,7 +5,9 @@
 
 # YunoHost 上的 Moodle
 
-[![集成程度](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![集成程度](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![工作状态](https://apps.yunohost.org/badge/state/moodle)
+![维护状态](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![使用 YunoHost 安装 Moodle](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 

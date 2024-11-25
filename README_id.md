@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Moodle untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Status kerja](https://apps.yunohost.org/badge/state/moodle)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Pasang Moodle dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 

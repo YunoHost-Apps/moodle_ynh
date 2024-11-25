@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Moodle YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/moodle)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Instalatu Moodle YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 

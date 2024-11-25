@@ -5,7 +5,9 @@ Hij mag NIET handmatig aangepast worden.
 
 # Moodle voor Yunohost
 
-[![Integratieniveau](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Mate van functioneren](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Onderhoudsstatus](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Integratieniveau](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Mate van functioneren](https://apps.yunohost.org/badge/state/moodle)
+![Onderhoudsstatus](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Moodle met Yunohost installeren](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
