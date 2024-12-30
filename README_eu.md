@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Moodle YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/moodle)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Instalatu Moodle YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
@@ -19,7 +21,7 @@ EZ editatu eskuz.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Paketatutako bertsioa:** 4.5.0~ynh1
+**Paketatutako bertsioa:** 4.5.1~ynh1
 
 **Demoa:** <https://sandbox.moodledemo.net/>
 

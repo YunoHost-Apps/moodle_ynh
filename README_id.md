@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Moodle untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Status kerja](https://apps.yunohost.org/badge/state/moodle)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Pasang Moodle dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
@@ -19,7 +21,7 @@ Ini TIDAK boleh diedit dengan tangan.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Versi terkirim:** 4.5.0~ynh1
+**Versi terkirim:** 4.5.1~ynh1
 
 **Demo:** <https://sandbox.moodledemo.net/>
 

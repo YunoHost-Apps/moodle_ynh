@@ -5,7 +5,9 @@ NON debe editarse manualmente.
 
 # Moodle para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/moodle.svg)](https://ci-apps.yunohost.org/ci/apps/moodle/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/moodle.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/moodle.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/moodle)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+![Estado de funcionamento](https://apps.yunohost.org/badge/state/moodle)
+![Estado de mantemento](https://apps.yunohost.org/badge/maintained/moodle)
 
 [![Instalar Moodle con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=moodle)
 
@@ -19,7 +21,7 @@ NON debe editarse manualmente.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Versión proporcionada:** 4.5.0~ynh1
+**Versión proporcionada:** 4.5.1~ynh1
 
 **Demo:** <https://sandbox.moodledemo.net/>
 

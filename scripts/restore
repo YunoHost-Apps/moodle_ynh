@@ -27,13 +27,15 @@ ynh_psql_db_shell < ./db.sql
 #=================================================
 # RESTORE SYSTEM CONFIGURATIONS
 #=================================================
-# RESTORE THE PHP-FPM CONFIGURATION
-#=================================================
 ynh_script_progression "Restoring system configurations related to $app..."
 
 ynh_restore "/etc/php/$php_version/fpm/pool.d/$app.conf"
 
 ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
+
+#=================================================
+# RESTORE VARIOUS FILES
+#=================================================
 
 ynh_restore "/etc/cron.d/$app"
 

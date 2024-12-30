@@ -47,17 +47,17 @@ chown "$app:$app" "$install_dir/config.php"
 #=================================================
 ynh_script_progression "Activate LDAP support..."
 
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='uid' WHERE plugin='auth_ldap' AND name='user_attribute';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='ou=users,dc=yunohost,dc=org' WHERE plugin='auth_ldap' AND name='contexts';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='givenName' WHERE plugin='auth_ldap' AND name='field_map_firstname';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='sn' WHERE plugin='auth_ldap' AND name='field_map_lastname';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='mail' WHERE plugin='auth_ldap' AND name='field_map_email';"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
-ynh_psql_db_shell  <<< "UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config SET value='ldap,email' WHERE name='auth';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='ldap://127.0.0.1/' WHERE plugin='auth_ldap' AND name='host_url';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='uid' WHERE plugin='auth_ldap' AND name='user_attribute';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='ou=users,dc=yunohost,dc=org' WHERE plugin='auth_ldap' AND name='contexts';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='givenName' WHERE plugin='auth_ldap' AND name='field_map_firstname';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='sn' WHERE plugin='auth_ldap' AND name='field_map_lastname';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='mail' WHERE plugin='auth_ldap' AND name='field_map_email';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='onlogin' WHERE plugin='auth_ldap' AND (name='field_updatelocal_firstname' OR name='field_updatelocal_lastname' OR name='field_updatelocal_email');"
+ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='locked' WHERE plugin='auth_ldap' AND (name='field_lock_firstname' OR name='field_lock_lastname' OR name='field_lock_email');"
 
-ynh_psql_db_shell  <<< "UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
+ynh_psql_db_shell <<< "UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
 php$php_version "$install_dir/admin/cli/purge_caches.php"
 
