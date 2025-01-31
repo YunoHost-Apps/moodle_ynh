@@ -3,12 +3,12 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
-ynh_app_setting_set_default --key=php_upload_max_filesize --value=1G
-
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
+
+ynh_app_setting_set_default --key=php_upload_max_filesize --value=1G
 
 if [ -z "${admin:-}" ]; then
 	ynh_die "This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
