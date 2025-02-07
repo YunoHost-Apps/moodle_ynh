@@ -21,7 +21,7 @@ Hij mag NIET handmatig aangepast worden.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Geleverde versie:** 4.5.1~ynh1
+**Geleverde versie:** 4.5.2~ynh1
 
 **Demo:** <https://sandbox.moodledemo.net/>
 
