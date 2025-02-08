@@ -17,12 +17,13 @@ admindoc = "https://docs.moodle.org/400/en/Main_page"
 code = "https://github.com/moodle/moodle"
 
 [integration]
-yunohost = ">= 12.0.9"
+yunohost = ">= 11.2.30"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
 
 ldap = true
+
 sso = true
 
 disk = "50M"
@@ -54,10 +55,10 @@ ram.runtime = "50M"
 
     [resources.sources]
 
-        [resources.sources.main]
-        url = "https://github.com/moodle/moodle/archive/refs/tags/v4.5.2.tar.gz"
-        sha256 = "a45cc2d6aa3e42c202c1efaf8b96f2cfb6280077bb8bd04e0dbbbc5f1c594aa5"
-        autoupdate.strategy = "latest_github_tag"
+    [resources.sources.main]
+    url = "https://github.com/moodle/moodle/archive/refs/tags/v4.5.2.tar.gz"
+    sha256 = "a45cc2d6aa3e42c202c1efaf8b96f2cfb6280077bb8bd04e0dbbbc5f1c594aa5"
+    autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
 
