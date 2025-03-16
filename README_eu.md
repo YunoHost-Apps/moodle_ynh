@@ -21,7 +21,7 @@ EZ editatu eskuz.
 Moodle is a learning platform designed to provide educators, administrators and learners with a single robust, secure and integrated system to create personalised learning environments. Moodle is widely used around the world by universities, schools, companies and all manner of organisations and individuals.
 
 
-**Paketatutako bertsioa:** 4.5.2~ynh1
+**Paketatutako bertsioa:** 4.5.3~ynh1
 
 **Demoa:** <https://sandbox.moodledemo.net/>
 
