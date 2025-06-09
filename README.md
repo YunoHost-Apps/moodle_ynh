@@ -4,7 +4,7 @@ It shall NOT be edited by hand.
 -->
 
 <h1>
-  <img src="https://raw.githubusercontent.com/YunoHost/apps/master/logos/moodle.png" width="32px" alt="Logo of Moodle">
+  <img src="https://raw.githubusercontent.com/YunoHost/apps/main/logos/moodle.png" width="32px" alt="Logo of Moodle">
   Moodle, packaged for YunoHost
 </h1>
 
@@ -12,7 +12,7 @@ Online learning platform
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://moodle.org/)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://sandbox.moodledemo.net/)
-![Version: 4.5.3~ynh1](https://img.shields.io/badge/Version-4.5.3~ynh1-rgba(0,150,0,1)?style=for-the-badge)
+[![Version: 5.0.1~ynh1](https://img.shields.io/badge/Version-5.0.1~ynh1-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moodle/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/moodle"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
