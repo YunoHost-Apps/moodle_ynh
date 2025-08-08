@@ -12,12 +12,16 @@ Online learning platform
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://moodle.org/)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://sandbox.moodledemo.net/)
-[![Version: 5.0.1~ynh1](https://img.shields.io/badge/Version-5.0.1~ynh1-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moodle/)
+[![Version: 5.0.2~ynh1](https://img.shields.io/badge/Version-5.0.2~ynh1-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/moodle/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/moodle"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
 <a href="https://github.com/YunoHost-Apps/moodle_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
 </div>
+
+
+## Screenshots
+![Screenshot of Moodle](./doc/screenshots/Moodle_2.0_on_Firefox_4.0.png)
 
 ## 📦 Developer info
 
