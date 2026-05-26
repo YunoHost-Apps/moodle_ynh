@@ -74,13 +74,5 @@ ram.runtime = "50M"
     [resources.apt]
     packages = "postgresql, php8.3-mbstring, php8.3-curl, php8.3-xmlrpc, php8.3-soap, php8.3-zip, php8.3-gd php8.3-xml, php8.3-intl, php8.3-pgsql, php8.3-ldap"
 
-	packages_from_raw_bash = """
-	if [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
-		echo "libdav1d7, postgresql-17-pgvector";
-	elif [[ $YNH_DEBIAN_VERSION == "bookwrom" ]]; then
-		echo "libdav1d6";
-	fi
-	"""
-    
     [resources.database]
     type = "postgresql"
