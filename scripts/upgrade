@@ -24,30 +24,6 @@ fi
 ynh_app_setting_set_default --key=site_name --value="YunoHost"
 
 #=================================================
-# CHECK SYSTEM REQUIREMENTS
-#=================================================
-ynh_script_progression "Checking system requirements..."
-
-# Moodle version/PostgreSQL compatibility matrix:
-#   Moodle 4.x / 5.0 / 5.1 — requires PostgreSQL 13+
-#   Moodle 5.2+             — requires PostgreSQL 16+
-# YunoHost does not support in-place PostgreSQL major version upgrades,
-# so we abort early with a clear message rather than failing mid-upgrade.
-pg_version=$(sudo --login --user=postgres psql -At -c "SELECT current_setting('server_version_num')::int / 10000;")
-new_moodle_version=$(grep '^version' "$YNH_APP_BASEDIR/manifest.toml" | grep -oE '[0-9]+\.[0-9]+' | head -1)
-new_moodle_major=$(echo "$new_moodle_version" | cut -d. -f1)
-new_moodle_minor=$(echo "$new_moodle_version" | cut -d. -f2)
-
-required_pg=13
-if [ "$new_moodle_major" -gt 5 ] || { [ "$new_moodle_major" -eq 5 ] && [ "$new_moodle_minor" -ge 2 ]; }; then
-    required_pg=16
-fi
-
-if [ "$pg_version" -lt "$required_pg" ]; then
-    ynh_die "Moodle ${new_moodle_version} requires PostgreSQL ${required_pg}+, but this server is running PostgreSQL ${pg_version}. Upgrade PostgreSQL before upgrading Moodle, or stay on a Moodle version compatible with PostgreSQL ${pg_version}."
-fi
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."

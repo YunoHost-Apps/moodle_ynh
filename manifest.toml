@@ -59,8 +59,10 @@ ram.runtime = "50M"
     [resources.sources.main]
     url = "https://github.com/moodle/moodle/archive/refs/tags/v5.1.5.tar.gz"
     sha256 = "1c1026b143e94b6d62a3023a9c9c380029944218368d78ca2371bf4f45213e26"
+    # Pinned to the 5.1.x series: Moodle 5.2+ requires PostgreSQL 16, which is
+    # not available on YunoHost 12 (Debian Bookworm ships PostgreSQL 15).
     autoupdate.strategy = "latest_github_tag"
-    autoupdate.version_regex = "^v(\\d+\\.\\d+\\.\\d+)$"
+    autoupdate.version_regex = "^v(5\\.1\\.\\d+)$"
 
     [resources.system_user]
 
