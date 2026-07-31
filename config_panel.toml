@@ -12,12 +12,16 @@ name = "Moodle settings"
         ask = "Maximum upload file size"
         type = "string"
         default = "1G"
+        pattern.regexp = "^[0-9]+[MG]$"
+        pattern.error = "Use a size like 512M or 2G"
         help = "Sets both PHP upload_max_filesize/post_max_size and the NGINX client_max_body_size. Use a size suffix: M for megabytes, G for gigabytes (e.g. 512M, 2G)."
 
         [main.php.php_memory_limit]
         ask = "PHP memory limit per process"
         type = "string"
         default = "256M"
+        pattern.regexp = "^[0-9]+[MG]$"
+        pattern.error = "Use a size like 256M or 512M"
         help = "RAM each PHP-FPM worker may use. Raise this if you see out-of-memory errors in Moodle logs. Typical range: 128M – 512M."
 
         [main.php.php_max_execution_time]
@@ -30,6 +34,7 @@ name = "Moodle settings"
         ask = "PHP max input vars"
         type = "number"
         default = 5000
+        min = 5000
         help = "Moodle requires at least 5000. Increase if you use very large quiz forms or course formats."
 
     [main.cron]

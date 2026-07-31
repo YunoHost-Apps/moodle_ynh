@@ -2,73 +2,20 @@
 
 source /usr/share/yunohost/helpers
 
-#=================================================
-# GETTERS — read current values from live config
-#=================================================
+ynh_abort_if_errors
 
-get__php_upload_max_filesize() {
-    ynh_app_setting_get --key=php_upload_max_filesize
-}
-
-get__php_memory_limit() {
-    ynh_app_setting_get --key=php_memory_limit
-}
-
-get__php_max_execution_time() {
-    ynh_app_setting_get --key=php_max_execution_time
-}
-
-get__php_max_input_vars() {
-    ynh_app_setting_get --key=php_max_input_vars
-}
-
-get__cron_interval() {
-    ynh_app_setting_get --key=cron_interval
-}
-
-#=================================================
-# SETTERS — validate and apply new values
-#=================================================
-
-set__php_upload_max_filesize() {
-    # Validate format: digits followed by M or G
-    if ! echo "$php_upload_max_filesize" | grep -qE '^[0-9]+(M|G)$'; then
-        ynh_die "Invalid upload size '$php_upload_max_filesize'. Use a value like 512M or 2G."
-    fi
-    ynh_app_setting_set --key=php_upload_max_filesize --value="$php_upload_max_filesize"
-}
-
-set__php_memory_limit() {
-    if ! echo "$php_memory_limit" | grep -qE '^[0-9]+(M|G)$'; then
-        ynh_die "Invalid memory limit '$php_memory_limit'. Use a value like 256M or 512M."
-    fi
-    ynh_app_setting_set --key=php_memory_limit --value="$php_memory_limit"
-}
-
-set__php_max_execution_time() {
-    ynh_app_setting_set --key=php_max_execution_time --value="$php_max_execution_time"
-}
-
-set__php_max_input_vars() {
-    if [ "$php_max_input_vars" -lt 5000 ]; then
-        ynh_die "php_max_input_vars must be at least 5000 (Moodle requirement)."
-    fi
-    ynh_app_setting_set --key=php_max_input_vars --value="$php_max_input_vars"
-}
-
-set__cron_interval() {
-    ynh_app_setting_set --key=cron_interval --value="$cron_interval"
-}
+# No custom getters/setters needed: every question uses the default
+# bind = "settings", so the core reads and persists the app settings itself,
+# and input validation is declared in config_panel.toml (pattern / min).
 
 #=================================================
 # APPLY — rebuild configs after any change
 #=================================================
 
 ynh_app_config_apply() {
-    # Run the framework's default apply first: this validates the form values,
-    # invokes the set__* functions and persists the new settings. Without this
-    # call the setters never run, so nothing is saved and the panel keeps
-    # showing the old values.
+    # Run the framework's default apply first: it validates the form values
+    # and persists the new settings. Without this call nothing is saved and
+    # the panel keeps showing the old values.
     _ynh_app_config_apply
 
     # Regenerate the configs that depend on the settings, using the freshly
@@ -81,4 +28,4 @@ ynh_app_config_apply() {
     ynh_systemctl --service=nginx --action=reload
 }
 
-ynh_app_config_run $1
+ynh_app_config_run "$1"
