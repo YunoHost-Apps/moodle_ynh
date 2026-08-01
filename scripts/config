@@ -1,0 +1,31 @@
+#!/bin/bash
+
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+# No custom getters/setters needed: every question uses the default
+# bind = "settings", so the core reads and persists the app settings itself,
+# and input validation is declared in config_panel.toml (pattern / min).
+
+#=================================================
+# APPLY — rebuild configs after any change
+#=================================================
+
+ynh_app_config_apply() {
+    # Run the framework's default apply first: it validates the form values
+    # and persists the new settings. Without this call nothing is saved and
+    # the panel keeps showing the old values.
+    _ynh_app_config_apply
+
+    # Regenerate the configs that depend on the settings, using the freshly
+    # saved values, then reload the affected services.
+    ynh_config_add_phpfpm
+    ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
+    ynh_config_add_nginx
+
+    ynh_systemctl --service="php${php_version}-fpm" --action=reload
+    ynh_systemctl --service=nginx --action=reload
+}
+
+ynh_app_config_run "$1"

@@ -10,7 +10,16 @@ source /usr/share/yunohost/helpers
 # INITIALIZE AND STORE SETTINGS
 #=================================================
 
-ynh_app_setting_set --key=php_upload_max_filesize --value=1G
+php_upload_max_filesize=1G
+php_memory_limit=256M
+php_max_execution_time=300
+php_max_input_vars=5000
+cron_interval=15
+ynh_app_setting_set --key=php_upload_max_filesize --value="$php_upload_max_filesize"
+ynh_app_setting_set --key=php_memory_limit --value="$php_memory_limit"
+ynh_app_setting_set --key=php_max_execution_time --value="$php_max_execution_time"
+ynh_app_setting_set --key=php_max_input_vars --value="$php_max_input_vars"
+ynh_app_setting_set --key=cron_interval --value="$cron_interval"
 
 email=$(ynh_user_get_info --username=$admin --key=mail)
 password=$(ynh_string_random --length=30)
@@ -65,7 +74,8 @@ ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='locked' WHERE
 
 ynh_psql_db_shell <<< "UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-php$php_version "$install_dir/admin/cli/purge_caches.php"
+env -i HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    php${php_version} "$install_dir/admin/cli/purge_caches.php"
 
 #=================================================
 # END OF SCRIPT

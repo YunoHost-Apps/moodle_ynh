@@ -12,6 +12,10 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Ensuring downward compatibility..."
 
 ynh_app_setting_set_default --key=php_upload_max_filesize --value=1G
+ynh_app_setting_set_default --key=php_memory_limit --value=256M
+ynh_app_setting_set_default --key=php_max_execution_time --value=300
+ynh_app_setting_set_default --key=php_max_input_vars --value=5000
+ynh_app_setting_set_default --key=cron_interval --value=15
 
 if [ -z "${admin:-}" ]; then
 	ynh_die "This app can't be upgraded from a very old version of the package. Please remove and reinstall Moodle"
@@ -55,7 +59,16 @@ ynh_psql_db_shell <<< "UPDATE public.mdl_config_plugins SET value='locked' WHERE
 
 ynh_psql_db_shell <<< "UPDATE public.mdl_user SET auth='ldap' WHERE username='$admin';"
 
-php${php_version} "$install_dir/admin/cli/purge_caches.php"
+#=================================================
+# RUN DATABASE MIGRATIONS
+#=================================================
+ynh_script_progression "Running Moodle database migrations..."
+
+env -i HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    php${php_version} -d max_input_vars=5000 "$install_dir/admin/cli/upgrade.php" --non-interactive
+
+env -i HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    php${php_version} "$install_dir/admin/cli/purge_caches.php"
 
 #=================================================
 # END OF SCRIPT
