@@ -1,1 +1,1 @@
-*/15 * * * * __APP__ /usr/bin/php__PHP_VERSION__ -f __INSTALL_DIR__/admin/cli/cron.php >/dev/null
+* * * * * __APP__ /usr/bin/php__PHP_VERSION__ -f __INSTALL_DIR__/admin/cli/cron.php >/dev/null

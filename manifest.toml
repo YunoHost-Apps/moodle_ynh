@@ -7,7 +7,7 @@ name = "Moodle"
 description.en = "Online learning platform"
 description.fr = "Plateforme d'apprentissage en ligne"
 
-version = "5.1.3~ynh1"
+version = "5.1.3~ynh2"
 
 maintainers = []
 
@@ -76,3 +76,6 @@ ram.runtime = "50M"
 
     [resources.database]
     type = "postgresql"
+
+    [resources.composer]
+    version = "2.10.3"
